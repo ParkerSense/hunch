@@ -543,7 +543,7 @@ document.getElementById('btn-sendlink').addEventListener('click',function(){
   var btn=this; btn.disabled=true; btn.textContent='Sending…';
   state.sb.auth.signInWithOtp({email:email, options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
     btn.disabled=false; btn.textContent='Email me a sign-in link';
-    if(r.error){ msg.className='msg err'; msg.textContent=r.error.message; }
+    if(r.error){ msg.className='msg err'; msg.textContent=/fetch|network/i.test(r.error.message||'') ? 'Could not reach the sign-in service. Check your connection - and the project URL under Change connection settings.' : r.error.message; }
     else { msg.className='msg ok'; msg.textContent='Check your email for a sign-in link. Open it on this device - it comes right back here.'; }
   }).catch(function(){
     btn.disabled=false; btn.textContent='Email me a sign-in link';
