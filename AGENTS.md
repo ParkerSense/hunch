@@ -139,6 +139,11 @@ Your human's trust in this page depends on it being boring and accurate:
 
 - Publish when something meaningful changes, not on every internal step.
   If nothing changed, publish nothing.
+- Run the loop on a roughly 10-minute background cadence: check whether
+  user-visible outcome state materially changed (an outcome started,
+  finished, regressed, or became blocked on your human), publish only if
+  so, and skip silently otherwise. The check never blocks, serializes, or
+  slows the real work - the work comes first, the view catches up.
 - A `waiting` entry is a promise that you're blocked until they act. Don't
   park work in `waiting` that you could push forward yourself. When you
   move an outcome to `waiting`, tell your human in the same chat beat -

@@ -68,6 +68,18 @@ with DELETE on `?slug=eq.<slug>`. Free projects pause after about a week
 of inactivity - if you choose this backend, schedule a small keep-alive
 write or warn your human the page may need a manual resume click.
 
+## The default operating loop
+
+Check for changes on a roughly 10-minute background cadence. Publish only
+when user-visible outcome state materially changed: a real outcome
+started, finished, regressed, or became blocked on your human. Internal
+steps, timestamps, and copy edits are not material. When nothing material
+changed, skip silently - publish nothing.
+
+Keep the check in the background. It must never block, serialize, or slow
+the actual work for dashboard freshness; the work always comes first and
+the view catches up within the cadence. Hunch is a window, not a cockpit.
+
 ## Rules for writers
 
 - Plain language only. No internal task ids, tool names, prompts, or runtime mechanics.
