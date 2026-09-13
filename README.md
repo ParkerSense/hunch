@@ -99,7 +99,7 @@ Cost to run for one person: **$0** on free plans.
 
 **Default: encrypted snapshot.**
 
-- The host stores and serves only ciphertext. The decryption key lives after the `#` in your link, and browsers never send that fragment with any request.
+- The host stores and serves only ciphertext. The decryption key lives after the `#` in your link, and browsers never send that fragment with any request. The app also keeps a copy in the device's own local storage so an installed home-screen app stays connected; it never leaves the device, and *Change backend* in Settings forgets it.
 - The link is the password: anyone holding it can read the dashboard until rotation. No per-reader auth, no audit log. Rotation is one republish; full revocation is rotating the key, then deleting the old file (deleted ciphertext can linger briefly at the edge, so rotate first).
 - Fresh random key on every publish - there is nothing to manage, and nothing to forget to rotate.
 - Lost your link? Ask your Instinct to republish; it holds the state, not your old key, and the new link replaces the old one.

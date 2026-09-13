@@ -39,6 +39,10 @@ lives. Host choice is your human's call (see the onboarding conversation).
   logs, analytics, screenshots, or any third-party message.
 - The fragment after `#` is never sent with web requests - the host sees
   only ciphertext and ordinary request metadata (IP, time, path).
+- The reader app remembers the key in the device's own local storage so an
+  installed home-screen app stays connected; Change backend in Settings
+  forgets that device. Rotation is still the only way to cut every device
+  at once.
 - Rotate by republishing (a fresh key every publish; old links die as soon
   as the new file lands everywhere). Revoke by rotating first, then deleting
   `snapshot.enc` - a deleted file can linger briefly in edge caches, and the

@@ -376,7 +376,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <h2>Security model</h2>
   <div class="box">
     <ul style="padding-left:19px">
-      <li><b>Default: encrypted snapshot.</b> The host stores and serves only ciphertext. The decryption key lives after the <code>#</code> in your link, and browsers never send that fragment with any request.</li>
+      <li><b>Default: encrypted snapshot.</b> The host stores and serves only ciphertext. The decryption key lives after the <code>#</code> in your link, and browsers never send that fragment with any request. Your device keeps a local copy so the installed home-screen app stays connected; it never leaves the device, and Change backend in Settings forgets it.</li>
       <li><b>The link is the password.</b> Anyone with the full link can read your dashboard until the key is rotated - there is no per-reader sign-in and no audit log in this mode. Rotation is one republish and takes effect at once; full revocation is rotating the key, then deleting the old file - deleted ciphertext can linger briefly at the host's edge, which is why rotation comes first. Keep the link out of screenshots, tickets, and shared notes.</li>
       <li><b>Optional: Supabase backend.</b> Sign-in is a magic link to your email with new sign-ups disabled. Postgres row-level security releases rows only to your user id, even with the publishable key. The service-role key (full write access) stays with the writer - never in this page, the repo, or the browser. Tradeoff: your data sits as readable text inside a hosted database you manage.</li>
       <li><b>Either way:</b> this page cannot phone home - the content-security policy allows connections only to this site (plus Supabase, only if you configure it). No analytics, no third-party requests, no trackers.</li>
@@ -398,7 +398,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 /* ================= config & state ================= */
 // Shell version: bump on every UI change. The app checks the served page and
 // reloads itself (preserving the #k key) when the host has a newer one.
-var APP_VERSION='2026.09.13.2';
+var APP_VERSION='2026.09.13.3';
 var CFG_KEY='hunch.cfg';
 var VISIT_KEY='hunch.lastVisit';
 var lastVisit=0;
@@ -408,6 +408,11 @@ var state={mode:'demo', sb:null, session:null, rows:[], loading:true, showAllDon
 function getCfg(){ try{return JSON.parse(localStorage.getItem(CFG_KEY)||'null');}catch(e){return null;} }
 function setCfg(c){ localStorage.setItem(CFG_KEY, JSON.stringify(c)); }
 function clearCfg(){ localStorage.removeItem(CFG_KEY); }
+/* the reader key is remembered on this device so the installed home-screen app
+   survives the #k fragment being dropped; Change backend / Disconnect forgets it */
+function storeKey(k){ try{ localStorage.setItem('hunch.k',k); }catch(e){} }
+function loadKey(){ try{ return localStorage.getItem('hunch.k')||null; }catch(e){ return null; } }
+function clearKey(){ try{ localStorage.removeItem('hunch.k'); }catch(e){} }
 
 /* ================= demo data ================= */
 function demoRows(){
@@ -553,10 +558,12 @@ function fetchSnapshot(){
       state.rows=data.projects||[];
       state.publishedAt=data.generated_at||env.published_at||null;
       state.lastFetch=Date.now();
+      storeKey(state.snapKey);
       render();
     });
   }).catch(function(e){
     if(e && e.name==='OperationError'){
+      clearKey();
       lockedState('This key does not open this snapshot','The link may be stale (rotated) or the snapshot was re-encrypted. Ask your Instinct for the current link.');
       return;
     }
@@ -672,7 +679,7 @@ function settingsSnapshotHTML(){
   +'<h2>Encrypted view</h2>'
   +'<p>'+(pub?('Snapshot published '+rel(pub)+' · read-only.'):'Connected · read-only.')+' Your Instinct publishes updates; this page only reads them.</p></div>'
   +'<div class="setblock"><h3>Your private link</h3>'
-  +'<p>The full bookmark link is the key to this dashboard. Anyone holding it can read your page, so keep it in bookmarks or a password manager - out of screenshots, messages, and shared notes.</p></div>'
+  +'<p>The full bookmark link is the key to this dashboard. Anyone holding it can read your page, so keep it in bookmarks or a password manager - out of screenshots, messages, and shared notes. This device remembers the key so the installed home-screen app stays connected; Change backend below forgets it.</p></div>'
   +'<div class="setblock"><h3>Rotate access</h3>'
   +'<p>If the link ever leaks, ask your Instinct to rotate it. Rotation republishes your dashboard with a fresh key and removes the old snapshot, so the old link stops opening your page.</p></div>'
   +'<div class="setblock links"><a href="#" id="set-about">How Hunch works</a><a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">GitHub</a></div>'
@@ -720,6 +727,7 @@ function showSettings(){
     document.getElementById('confirm-backend').classList.add('hidden');
     if(state.mode==='snapshot'){
       try{ history.replaceState(null,'',location.pathname); }catch(err){}
+      clearKey();
       state.snapKey=null;
       showSetup(false);
       return;
@@ -770,6 +778,7 @@ document.getElementById('btn-back-choice').addEventListener('click',function(){ 
 document.getElementById('link-locked-demo').addEventListener('click',function(e){
   e.preventDefault();
   try{ history.replaceState(null,'',location.pathname); }catch(err){}
+  clearKey();
   state.snapKey=null;
   enterDemo();
 });
@@ -781,6 +790,7 @@ document.getElementById('link-disconnect').addEventListener('click',function(e){
   e.preventDefault();
   if(state.mode==='snapshot'){
     try{ history.replaceState(null,'',location.pathname); }catch(err){}
+    clearKey();
     state.snapKey=null;
     enterDemo();
     toast('Disconnected. You are back on the demo.');
@@ -867,7 +877,12 @@ document.getElementById('btn-connect').addEventListener('click',function(){
 })();
 var cfg=getCfg();
 var bootKey=(location.hash.match(/(?:^|[#&])k=([A-Za-z0-9_-]{40,50})/)||[])[1];
+var savedKey=bootKey?null:loadKey();
 if(bootKey){ enterSnapshot(bootKey); }
+else if(savedKey){
+  try{ history.replaceState(null,'',location.pathname+location.search+'#k='+savedKey); }catch(err){}
+  enterSnapshot(savedKey);
+}
 else if(cfg && cfg.url && cfg.key){
   try{ enterSupabase(cfg); }
   catch(e){ clearCfg(); enterDemo(); setTimeout(function(){ toast('Saved connection settings were unreadable, so you are back on the demo. Reconnect any time.'); },300); }
