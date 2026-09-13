@@ -219,15 +219,27 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 </div>
 </div>
 
+
+<!-- ============ LOCKED (snapshot mode, no/invalid key) ============ -->
+<div id="view-locked" class="page">
+<div class="solo">
+  <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
+  <h1 id="locked-title">This dashboard is locked</h1>
+  <p class="lede" id="locked-body">Your data lives in an encrypted snapshot on this site. Open the full link your assistant gave you - the part after # is the key, and it never leaves your browser.</p>
+  <div class="backrow"><a href="#" id="link-locked-demo">View the demo instead</a></div>
+</div>
+</div>
+
 <!-- ============ SETUP ============ -->
 <div id="view-setup" class="page">
 <div class="solo" style="max-width:480px">
   <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
   <h1 id="setup-title">Make Hunch yours</h1>
-  <p class="lede">Hunch is one page plus a tiny database. About ten minutes, all on free plans. Your credentials below live only in this browser.</p>
+  <p class="lede">Hunch is one page plus a tiny backend. <b>The default needs no account at all:</b> your assistant publishes an encrypted snapshot to this site and hands you a link. The part after <code>#</code> is the only key - anyone with the full link can read your page, so treat it like a password. Rotation is one republish.</p>
   <p class="lede" style="margin-top:-14px"><b>Have an AI assistant?</b> The fastest path: send it <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">the Hunch repo</a> and say "set up Hunch for me" - it does everything below with you.</p>
 
   <div class="steps">
+    <div class="step"><div class="n">&mdash;</div><div class="t"><b>Optional: Supabase backend.</b> Adds email sign-in and per-reader access control instead of a bearer link. Tradeoffs: creating the account needs a human verification step, and free projects pause after a week of inactivity (a scheduled write keeps one alive).</div></div>
     <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
     <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
     <div class="step"><div class="n">3</div><div class="t"><b>Run <a href="https://github.com/ParkerSense/hunch/blob/main/setup.sql" target="_blank" rel="noopener"><code>setup.sql</code></a></b> in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
@@ -271,8 +283,8 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     <path d="M112 41 H146" stroke="#15130f" stroke-width="1.6" fill="none"/>
     <path d="M141 36 L148 41 L141 46" stroke="#15130f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
     <rect x="148" y="18" width="104" height="46" rx="10" fill="#ffffff" stroke="#d9d5cd"/>
-    <text x="200" y="38" text-anchor="middle" fill="#15130f" font-size="11.5" font-weight="700" font-family="Georgia,serif">Supabase</text>
-    <text x="200" y="53" text-anchor="middle" fill="#6e6a61" font-size="9.5" font-family="Georgia,serif">one tiny table</text>
+    <text x="200" y="38" text-anchor="middle" fill="#15130f" font-size="11.5" font-weight="700" font-family="Georgia,serif">Your backend</text>
+    <text x="200" y="53" text-anchor="middle" fill="#6e6a61" font-size="9.5" font-family="Georgia,serif">snapshot or Supabase</text>
     <path d="M200 64 V88" stroke="#15130f" stroke-width="1.6" fill="none"/>
     <path d="M195 83 L200 90 L205 83" stroke="#15130f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
     <rect x="148" y="90" width="104" height="46" rx="10" fill="#ffffff" stroke="#d9d5cd"/>
@@ -280,18 +292,20 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     <text x="200" y="125" text-anchor="middle" fill="#6e6a61" font-size="9.5" font-family="Georgia,serif">read-only</text>
   </svg>
   <ul>
-    <li><b>The assistant writes.</b> As work starts, moves, waits, or completes, the assistant upserts one plain-English row per outcome into your database, using the service-role key that stays server-side.</li>
-    <li><b>The app reads.</b> This page reads those rows through row-level security with a publishable key. There is no write path from the browser at all.</li>
+    <li><b>The assistant publishes.</b> As work starts, moves, waits, or completes, your assistant builds one small JSON snapshot of user-visible outcomes, encrypts it with a fresh random key (AES-256-GCM), and replaces one file (<code>snapshot.enc</code>) on this site. Every publish is a complete, consistent view.</li>
+    <li><b>The app reads.</b> This page fetches the encrypted file and decrypts it locally with the key from your link. There is no write path from the browser at all.</li>
     <li><b>You look.</b> No chat archaeology. Open the page, see the state of your life in ten seconds.</li>
-    <li><b>Something looks wrong?</b> Tell your assistant in chat - it owns the rows and rewrites them. Editing the database directly works, but its next update may overwrite your edit.</li>
+    <li><b>Something looks wrong?</b> Tell your assistant in chat - it owns the snapshot and republishes it. Editing the file directly works until the next publish overwrites it.</li>
   </ul>
+  <p style="color:#6e6a61;font-size:14px">Running the optional Supabase backend instead? The flow is the same shape: the assistant upserts rows into your own project, and this page reads them after email sign-in. One backend per installation - no syncing, no split brain.</p>
 
   <h2>Security model</h2>
   <div class="box">
     <ul style="padding-left:19px">
-      <li>Sign-in is a magic link to your email. New sign-ups are disabled, so a stranger's email gets rejected.</li>
-      <li>Postgres row-level security releases rows only to your user id - even with the publishable key, nobody else can read them.</li>
-      <li>The service-role key (full write access) stays with the writer. It is never in this page, the repo, or the browser.</li>
+      <li><b>Default: encrypted snapshot.</b> The host stores and serves only ciphertext. The decryption key lives after the <code>#</code> in your link, and browsers never send that fragment with any request.</li>
+      <li><b>The link is the password.</b> Anyone with the full link can read your dashboard until the key is rotated - there is no per-reader sign-in and no audit log in this mode. Rotation is one republish; revoking everything is deleting one file. Keep the link out of screenshots, tickets, and shared notes.</li>
+      <li><b>Optional: Supabase backend.</b> Sign-in is a magic link to your email with new sign-ups disabled. Postgres row-level security releases rows only to your user id, even with the publishable key. The service-role key (full write access) stays with the writer - never in this page, the repo, or the browser. Tradeoff: your data sits as readable text inside a hosted database you manage.</li>
+      <li><b>Either way:</b> this page cannot phone home - the content-security policy allows connections only to this site (plus Supabase, only if you configure it). No analytics, no third-party requests, no trackers.</li>
     </ul>
   </div>
 
@@ -429,14 +443,49 @@ function render(){
   var up=document.getElementById('updated');
   var dot=document.querySelector('#livepill .livedot');
   if(state.mode==='demo'){ up.textContent='Demo'; dot.style.background='var(--accent)'; dot.style.animation='none'; }
+  else if(state.mode==='snapshot'){
+    if(state.lastFetch){ up.textContent='Snapshot · published '+rel(state.publishedAt||state.lastFetch); dot.style.background='var(--green)'; dot.style.animation=''; }
+  }
   else if(state.lastFetch){ up.textContent='Live · '+rel(state.lastFetch); dot.style.background='var(--green)'; dot.style.animation=''; }
 }
 
 /* ================= data ================= */
+function b64uDec(s){ s=s.replace(/-/g,'+').replace(/_/g,'/'); var b=atob(s); var u=new Uint8Array(b.length); for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i); return u; }
+function lockedState(title,body){
+  document.getElementById('locked-title').textContent=title;
+  document.getElementById('locked-body').textContent=body;
+  show('view-locked');
+}
+function fetchSnapshot(){
+  var upd=document.getElementById('updated'); upd.textContent='Refreshing';
+  return fetch('snapshot.enc',{cache:'no-store'}).then(function(r){
+    if(r.status===404){ lockedState('No snapshot here yet','Your assistant publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
+    if(!r.ok) throw new Error('http-'+r.status);
+    return r.json();
+  }).then(function(env){
+    if(!env) return;
+    return crypto.subtle.importKey('raw',b64uDec(state.snapKey),{name:'AES-GCM'},false,['decrypt']).then(function(key){
+      return crypto.subtle.decrypt({name:'AES-GCM',iv:b64uDec(env.iv)},key,b64uDec(env.ct));
+    }).then(function(pt){
+      var data=JSON.parse(new TextDecoder().decode(pt));
+      state.rows=data.projects||[];
+      state.publishedAt=data.generated_at||env.published_at||null;
+      state.lastFetch=Date.now();
+      render();
+    });
+  }).catch(function(e){
+    if(e && (e.name==='OperationError'||e instanceof SyntaxError)){
+      lockedState('This key does not open this snapshot','The link may be stale (rotated) or the snapshot was re-encrypted. Ask your assistant for the current link.');
+      return;
+    }
+    upd.textContent='Error'; toast('Connection problem. Check your network and tap refresh.');
+  });
+}
 function fetchRows(){
   if(state.mode==='demo'){
     state.rows=demoRows(); state.lastFetch=Date.now(); render(); return Promise.resolve();
   }
+  if(state.mode==='snapshot'){ return fetchSnapshot(); }
   var upd=document.getElementById('updated'); upd.textContent='Refreshing';
   return state.sb.from('projects').select('*').then(function(res){
     if(res.error){
@@ -459,6 +508,14 @@ function enterDemo(){
   document.getElementById('demobar').classList.remove('hidden');
   document.getElementById('livepill').style.display='flex';
   show('view-home'); render();
+}
+function enterSnapshot(keyB64){
+  state.mode='snapshot'; state.snapKey=keyB64; state.sb=null; state.session=null; state.publishedAt=null;
+  document.getElementById('link-signout').classList.add('hidden');
+  document.getElementById('demobar').classList.add('hidden');
+  document.getElementById('livepill').style.display='flex';
+  show('view-home'); document.getElementById('skeletons').style.display='block';
+  fetchRows();
 }
 function makeClient(cfg){
   return supabase.createClient(cfg.url.replace(/\/+$/,''), cfg.key, {auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}});
@@ -507,12 +564,25 @@ document.getElementById('btn-makemine').addEventListener('click',function(){
 });
 document.getElementById('link-about').addEventListener('click',function(e){ e.preventDefault(); show('view-about'); });
 document.getElementById('link-home').addEventListener('click',function(e){ e.preventDefault(); show('view-home'); render(); });
+document.getElementById('link-locked-demo').addEventListener('click',function(e){
+  e.preventDefault();
+  try{ history.replaceState(null,'',location.pathname); }catch(err){}
+  state.snapKey=null;
+  enterDemo();
+});
 document.getElementById('link-back-demo').addEventListener('click',function(e){
   e.preventDefault();
   show('view-home'); render();
 });
 document.getElementById('link-disconnect').addEventListener('click',function(e){
   e.preventDefault();
+  if(state.mode==='snapshot'){
+    try{ history.replaceState(null,'',location.pathname); }catch(err){}
+    state.snapKey=null;
+    enterDemo();
+    toast('Disconnected. You are back on the demo.');
+    return;
+  }
   if(state.sb) state.sb.auth.signOut();
   clearCfg();
   document.getElementById('cfg-url').value='';
@@ -593,10 +663,18 @@ document.getElementById('btn-connect').addEventListener('click',function(){
     history.replaceState(null,'',location.pathname); }
 })();
 var cfg=getCfg();
-if(cfg && cfg.url && cfg.key){
+var bootKey=(location.hash.match(/(?:^|[#&])k=([A-Za-z0-9_-]{40,50})/)||[])[1];
+if(bootKey){ enterSnapshot(bootKey); }
+else if(cfg && cfg.url && cfg.key){
   try{ enterSupabase(cfg); }
   catch(e){ clearCfg(); enterDemo(); setTimeout(function(){ toast('Saved connection settings were unreadable, so you are back on the demo. Reconnect any time.'); },300); }
-} else enterDemo();
+} else {
+  // snapshot deployment without a key in the link, or plain demo - find out cheaply
+  fetch('snapshot.enc',{method:'HEAD',cache:'no-store'}).then(function(r){
+    if(r.ok) lockedState('This dashboard is locked','Your data lives in an encrypted snapshot on this site. Open the full link your assistant gave you - the part after # is the key, and it never leaves your browser.');
+    else enterDemo();
+  }).catch(function(){ enterDemo(); });
+}
 
 // refresh cycle: data every 60s, relative times every 30s
 setInterval(function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); },60000);
@@ -606,6 +684,12 @@ document.addEventListener('visibilitychange',function(){
   else if(state.mode!=='demo') fetchRows();
 });
 window.addEventListener('pagehide',markVisit);
+// a new #k= link opened while already on the page is a same-document
+// navigation - re-enter snapshot mode with the new key explicitly
+window.addEventListener('hashchange',function(){
+  var m=(location.hash.match(/(?:^|[#&])k=([A-Za-z0-9_-]{40,50})/)||[])[1];
+  if(m && m!==state.snapKey) enterSnapshot(m);
+});
 })();
 </script>
 </body>

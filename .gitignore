@@ -1,2 +1,8 @@
+# Hunch local secrets and build artifacts - never commit these.
+snapshot.enc
+.snapshot.enc.tmp
+*.state.json
+state.json
 node_modules/
+.wrangler/
 .DS_Store
