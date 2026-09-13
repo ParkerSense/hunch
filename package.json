@@ -1,0 +1,10 @@
+{
+  "name": "hunch",
+  "version": "1.0.0",
+  "description": "The unofficial open-source dashboard for Instinct - a private, read-only page showing what your Instinct is working on.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test 'test/*.test.mjs'"
+  }
+}
