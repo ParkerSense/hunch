@@ -461,9 +461,14 @@ function fetchSnapshot(){
   return fetch('snapshot.enc',{cache:'no-store'}).then(function(r){
     if(r.status===404){ lockedState('No snapshot here yet','Your assistant publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
     if(!r.ok) throw new Error('http-'+r.status);
+    // static hosts with SPA fallback answer missing files with index.html -
+    // that means no snapshot, not an unreadable one
+    var ct=(r.headers.get('content-type')||'');
+    if(ct.indexOf('text/html')!==-1){ lockedState('No snapshot here yet','Your assistant publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
     return r.json();
   }).then(function(env){
     if(!env) return;
+    if(!env.iv || !env.ct){ lockedState('Snapshot unreadable','The encrypted file on this site is not a valid Hunch snapshot. Ask your assistant to republish.'); return; }
     return crypto.subtle.importKey('raw',b64uDec(state.snapKey),{name:'AES-GCM'},false,['decrypt']).then(function(key){
       return crypto.subtle.decrypt({name:'AES-GCM',iv:b64uDec(env.iv)},key,b64uDec(env.ct));
     }).then(function(pt){
@@ -474,8 +479,12 @@ function fetchSnapshot(){
       render();
     });
   }).catch(function(e){
-    if(e && (e.name==='OperationError'||e instanceof SyntaxError)){
+    if(e && e.name==='OperationError'){
       lockedState('This key does not open this snapshot','The link may be stale (rotated) or the snapshot was re-encrypted. Ask your assistant for the current link.');
+      return;
+    }
+    if(e instanceof SyntaxError){
+      lockedState('Snapshot unreadable','The encrypted file on this site is not valid JSON. Ask your assistant to republish.');
       return;
     }
     upd.textContent='Error'; toast('Connection problem. Check your network and tap refresh.');
@@ -670,9 +679,14 @@ else if(cfg && cfg.url && cfg.key){
   catch(e){ clearCfg(); enterDemo(); setTimeout(function(){ toast('Saved connection settings were unreadable, so you are back on the demo. Reconnect any time.'); },300); }
 } else {
   // snapshot deployment without a key in the link, or plain demo - find out cheaply
-  fetch('snapshot.enc',{method:'HEAD',cache:'no-store'}).then(function(r){
-    if(r.ok) lockedState('This dashboard is locked','Your data lives in an encrypted snapshot on this site. Open the full link your assistant gave you - the part after # is the key, and it never leaves your browser.');
-    else enterDemo();
+  fetch('snapshot.enc',{cache:'no-store'}).then(function(r){
+    if(!r.ok){ enterDemo(); return; }
+    var ct=(r.headers.get('content-type')||'');
+    if(ct.indexOf('text/html')!==-1){ enterDemo(); return; } // SPA fallback, no snapshot deployed
+    r.json().then(function(env){
+      if(env && env.iv && env.ct) lockedState('This dashboard is locked','Your data lives in an encrypted snapshot on this site. Open the full link your assistant gave you - the part after # is the key, and it never leaves your browser.');
+      else enterDemo();
+    }).catch(function(){ enterDemo(); });
   }).catch(function(){ enterDemo(); });
 }
 
