@@ -3,257 +3,557 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-<title>Projects</title>
+<meta name="theme-color" content="#08090d">
+<title>Hunch - what is your AI assistant actually doing?</title>
+<meta name="description" content="Hunch is a private, always-current window into what your personal AI assistant is working on: what's in motion, what's waiting on you, and what just wrapped. Built for Instinct. Unofficial.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hunch">
+<meta property="og:description" content="What is your AI assistant actually doing? One glance: in motion, waiting on you, done.">
+<meta property="og:image" content="https://hunch.surge.sh/assets/og.png">
+<meta property="og:url" content="https://hunch.surge.sh">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hunch">
+<meta name="twitter:description" content="What is your AI assistant actually doing? One glance: in motion, waiting on you, done.">
+<meta name="twitter:image" content="https://hunch.surge.sh/assets/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308090d'/%3E%3Cg fill='none' stroke='%238a7dff' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M20 40a12 12 0 0 1 24 0'/%3E%3Cpath d='M13 40a19 19 0 0 1 38 0' opacity='.55'/%3E%3Cpath d='M27 40a5 5 0 0 1 10 0'/%3E%3C/g%3E%3Ccircle cx='32' cy='44' r='4' fill='%238a7dff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f6f7f9; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#e6e8ee;
-  --accent:#4f46e5; --accent-soft:#eef0fe;
-  --green:#0f9d63; --green-soft:#e7f6ef;
-  --amber:#b45309; --amber-soft:#fdf1e3;
-  --slate-soft:#f1f3f7;
+  --bg:#08090d; --panel:#0e1016; --card:#12141c; --card2:#161926;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  --ink:#f2f3f7; --muted:#9ba0b0; --faint:#5f6474;
+  --accent:#8a7dff; --accent-soft:rgba(138,125,255,.14);
+  --amber:#f0a848; --amber-soft:rgba(240,168,72,.13);
+  --green:#3ecf8e; --green-soft:rgba(62,207,142,.12);
+  --blue:#5ea2ff; --pink:#ef7fb8; --teal:#46c8c0;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
-.wrap{max-width:480px;margin:0 auto;padding:0 18px calc(40px + env(safe-area-inset-bottom))}
-header.top{padding:calc(16px + env(safe-area-inset-top)) 0 6px;display:flex;align-items:baseline;justify-content:space-between}
-h1{font-size:26px;font-weight:800;letter-spacing:-0.02em}
-.sub{color:var(--muted);font-size:12.5px;margin-top:2px}
-.refreshline{display:flex;align-items:center;justify-content:space-between;margin:8px 0 4px;min-height:26px}
-.updated{font-size:12px;color:var(--muted)}
-.updated.live::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;vertical-align:1px}
-.iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer}
-.group{margin-top:20px}
-.group h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--slate-soft);color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:10px;box-shadow:0 1px 2px rgba(15,23,42,.03)}
-.card .cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:inline-block;padding:3px 8px;border-radius:999px}
-.cat.travel{background:#e8f1fd;color:#1d4ed8}.cat.learning{background:#efeafd;color:#6d28d9}.cat.money{background:#e7f6ef;color:#0f9d63}.cat.product{background:#fdf1e3;color:#b45309}.cat.personal{background:#f1f3f7;color:#475569}
-.card h3{font-size:16.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px}
-.status{font-size:14px;line-height:1.45;color:var(--ink)}
-.meta{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:6px}
-.mrow{font-size:12.5px;line-height:1.4;color:var(--muted)}
-.mrow b{color:var(--ink);font-weight:600}
-.next{margin-top:10px;background:var(--accent-soft);border-radius:10px;padding:9px 11px;font-size:13px;line-height:1.4;color:#3730a3}
-.next b{font-weight:700}
-.empty{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:13.5px;background:transparent}
-/* sign in */
-.signin{max-width:400px;margin:0 auto;padding:calc(64px + env(safe-area-inset-top)) 24px 40px}
-.signin .logo{width:52px;height:52px;border-radius:14px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin-bottom:18px}
-.signin h1{font-size:24px;margin-bottom:6px}
-.signin p{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:20px}
-.field{width:100%;font-size:16px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px;outline:none}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg); color:var(--ink); min-height:100vh;
+  font-feature-settings:'cv11','ss01'; letter-spacing:-0.005em;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(700px 340px at 50% -80px, rgba(138,125,255,.16), transparent 70%),
+    radial-gradient(500px 260px at 85% 0%, rgba(94,162,255,.07), transparent 70%);
+}
+.wrap{max-width:600px;margin:0 auto;padding:0 20px calc(48px + env(safe-area-inset-bottom));position:relative;z-index:1}
+@media(min-width:760px){.wrap{max-width:660px}}
+
+/* ---------- header ---------- */
+header.top{padding:calc(20px + env(safe-area-inset-top)) 0 4px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand svg{width:34px;height:34px;flex:none}
+.brand .name{font-size:21px;font-weight:800;letter-spacing:-0.03em}
+.brand .tag{font-size:12px;color:var(--faint);font-weight:500;margin-top:1px}
+.actions{display:flex;align-items:center;gap:8px;flex:none}
+.livepill{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:6px 11px;background:rgba(255,255,255,.02)}
+.livedot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(62,207,142,.5);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(62,207,142,.45)}70%{box-shadow:0 0 0 7px rgba(62,207,142,0)}100%{box-shadow:0 0 0 0 rgba(62,207,142,0)}}
+.iconbtn{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
+.iconbtn:hover{color:var(--ink);border-color:var(--line2);background:rgba(255,255,255,.05)}
+.iconbtn:active{transform:scale(.94)}
+.iconbtn svg{width:16px;height:16px}
+.iconbtn.spinning svg{animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ---------- demo banner ---------- */
+.demobar{margin:16px 0 0;border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(100deg, rgba(138,125,255,.16), rgba(94,162,255,.10));
+  border:1px solid rgba(138,125,255,.28)}
+.demobar .txt{flex:1;font-size:13px;line-height:1.45;color:#cfc9f5}
+.demobar .txt b{color:#fff;font-weight:700}
+.demobar button{flex:none;border:none;border-radius:9px;background:var(--accent);color:#0a0a12;font-weight:700;font-size:12.5px;padding:8px 13px;cursor:pointer;transition:.15s}
+.demobar button:hover{filter:brightness(1.12)}
+
+/* ---------- greeting / summary ---------- */
+.hello{margin:22px 0 6px}
+.hello .greet{font-size:26px;font-weight:800;letter-spacing:-0.03em}
+.hello .sum{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+.hello .sum b{font-weight:650}
+.hello .sum .w{color:var(--amber);font-weight:650}
+
+/* ---------- groups ---------- */
+.group{margin-top:26px}
+.grouphead{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.grouphead h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.grouphead .count{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.05);color:var(--faint)}
+.grouphead .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.a{background:var(--accent)} .dot.w{background:var(--amber)} .dot.d{background:var(--green)}
+
+/* ---------- cards ---------- */
+.card{background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));border:1px solid var(--line);border-radius:18px;padding:17px 18px;margin-bottom:12px;transition:border-color .15s, transform .15s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;border-radius:3px}
+.card.st-active::before{background:var(--accent)}
+.card.st-waiting::before{background:var(--amber)}
+.card.st-done{opacity:.72}
+.card.st-done::before{background:var(--green)}
+.card:hover{border-color:var(--line2)}
+@media(hover:hover){.card:hover{transform:translateY(-1px)}}
+.card .topline{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+.cat{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3.5px 9px;border-radius:999px}
+.cat.travel{background:rgba(94,162,255,.14);color:var(--blue)}
+.cat.learning{background:rgba(138,125,255,.15);color:#a99bff}
+.cat.money{background:rgba(62,207,142,.13);color:var(--green)}
+.cat.product{background:rgba(240,168,72,.13);color:var(--amber)}
+.cat.personal{background:rgba(239,127,184,.12);color:var(--pink)}
+.cat.health{background:rgba(70,200,192,.13);color:var(--teal)}
+.cat.home{background:rgba(255,255,255,.07);color:#c4c9d8}
+.ago{margin-left:auto;font-size:11.5px;color:var(--faint);font-weight:550;white-space:nowrap}
+.card h3{font-size:16.5px;font-weight:700;letter-spacing:-0.015em;margin-bottom:5px}
+.status{font-size:14px;line-height:1.5;color:#c9cddb}
+.status .em{color:var(--amber);font-weight:600}
+.meta{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.08);display:flex;flex-direction:column;gap:7px}
+.mrow{font-size:12.8px;line-height:1.5;color:var(--muted);display:flex;gap:8px}
+.mrow .k{color:var(--faint);font-weight:600;flex:none;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:1.5px;width:64px}
+.next{margin-top:12px;background:var(--accent-soft);border:1px solid rgba(138,125,255,.2);border-radius:11px;padding:10px 12px;font-size:13px;line-height:1.45;color:#c3bbfb;display:flex;gap:9px;align-items:flex-start}
+.next svg{flex:none;width:14px;height:14px;margin-top:2px;opacity:.8}
+.next.warn{background:var(--amber-soft);border-color:rgba(240,168,72,.25);color:#f0c795}
+.empty{border:1px dashed rgba(255,255,255,.12);border-radius:16px;padding:20px;text-align:center;color:var(--faint);font-size:13.5px}
+.showall{width:100%;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;padding:10px;border-radius:11px;cursor:pointer;margin-top:2px}
+.showall:hover{color:var(--ink);border-color:var(--line2)}
+
+/* ---------- footer ---------- */
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.foot a{color:var(--faint);font-size:12.5px;text-decoration:none;font-weight:600}
+.foot a:hover{color:var(--ink)}
+.foot .lhs{display:flex;gap:16px}
+.foot .sig{font-size:11.5px;color:#3d4150}
+
+/* ---------- overlays (signin / setup / about) ---------- */
+.page{display:none}
+.page.on{display:block}
+.solo{max-width:440px;margin:0 auto;padding:calc(56px + env(safe-area-inset-top)) 24px 40px;position:relative;z-index:1}
+.solo .mark{width:56px;height:56px;border-radius:16px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.solo .mark svg{width:32px;height:32px}
+.solo h1{font-size:25px;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px}
+.solo .lede{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:24px}
+.field{width:100%;font-size:15.5px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);margin-bottom:10px;outline:none;font-family:inherit;transition:border-color .15s}
 .field:focus{border-color:var(--accent)}
-.btn{width:100%;font-size:15.5px;font-weight:700;padding:14px;border:none;border-radius:12px;background:var(--ink);color:#fff;cursor:pointer}
-.btn:disabled{opacity:.5}
-.btn.sec{background:var(--card);color:var(--ink);border:1px solid var(--line);margin-top:8px}
-.msg{font-size:13.5px;line-height:1.5;margin-top:14px;padding:11px 13px;border-radius:10px;display:none}
-.msg.ok{display:block;background:var(--green-soft);color:#065f46}
-.msg.err{display:block;background:#fdecec;color:#b91c1c}
-.msg.info{display:block;background:var(--accent-soft);color:#3730a3}
+.field::placeholder{color:#4a4f5e}
+label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:14px 0 6px}
+.btn{width:100%;font-size:15px;font-weight:700;padding:14px;border:none;border-radius:12px;background:var(--accent);color:#0a0a12;cursor:pointer;font-family:inherit;transition:.15s;margin-top:14px}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.sec{background:transparent;color:var(--muted);border:1px solid var(--line);font-weight:600}
+.btn.sec:hover{color:var(--ink);border-color:var(--line2);filter:none}
+.msg{font-size:13.5px;line-height:1.55;margin-top:14px;padding:12px 14px;border-radius:11px;display:none}
+.msg.ok{display:block;background:var(--green-soft);color:#7fe0b6;border:1px solid rgba(62,207,142,.25)}
+.msg.err{display:block;background:rgba(239,107,107,.1);color:#f09595;border:1px solid rgba(239,107,107,.25)}
+.msg.info{display:block;background:var(--accent-soft);color:#c3bbfb;border:1px solid rgba(138,125,255,.25)}
+.steps{margin:22px 0 4px;display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:13px;padding:11px 0;border-bottom:1px dashed rgba(255,255,255,.07)}
+.step:last-child{border-bottom:none}
+.step .n{flex:none;width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step .t{font-size:13.5px;line-height:1.55;color:var(--muted)}
+.step .t b{color:var(--ink);font-weight:650}
+.step .t code{background:rgba(255,255,255,.06);padding:1.5px 6px;border-radius:6px;font-size:12px;color:#c3bbfb;font-family:ui-monospace,'SF Mono',Menlo,monospace}
+.backrow{margin-top:26px;text-align:center}
+.backrow a{color:var(--faint);font-size:13px;font-weight:600;text-decoration:none}
+.backrow a:hover{color:var(--ink)}
+
 /* about */
-.about h2{font-size:17px;margin:22px 0 8px}
-.about p, .about li{font-size:14px;line-height:1.6;color:#334155}
-.about ul{padding-left:20px;margin-top:6px}
-.about .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:10px}
-.diagram{width:100%;height:auto;display:block;margin:10px 0}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
-@keyframes sp{to{transform:rotate(360deg)}}
-.foot{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-.foot a{color:var(--muted);font-size:13px;text-decoration:none;font-weight:600}
-.foot a:active{color:var(--ink)}
-.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.about h2{font-size:16px;margin:26px 0 8px;letter-spacing:-0.01em}
+.about p,.about li{font-size:14px;line-height:1.65;color:var(--muted)}
+.about ul{padding-left:19px;margin-top:7px}
+.about li{margin-bottom:5px}
+.about b{color:var(--ink)}
+.about .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px;margin-top:12px}
+.about a{color:#a99bff;text-decoration:none}
+.about a:hover{text-decoration:underline}
+.diagram{width:100%;height:auto;display:block;margin:14px 0 4px}
+
+/* skeleton + toast + misc */
+.sk{border-radius:16px;height:118px;margin-bottom:12px;background:linear-gradient(100deg, rgba(255,255,255,.03) 40%, rgba(255,255,255,.07) 50%, rgba(255,255,255,.03) 60%);background-size:200% 100%;animation:sh 1.3s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom));z-index:50;display:flex;flex-direction:column;gap:8px;width:min(420px,90vw)}
+.toast{background:#1a1d29;border:1px solid var(--line2);border-radius:12px;padding:12px 15px;font-size:13.5px;line-height:1.45;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:up .25s}
+@keyframes up{from{opacity:0;transform:translateY(8px)}}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
+<div id="toasts"></div>
 
-<!-- SIGN IN -->
-<div id="signin" class="signin" style="display:none">
-  <div class="logo">P</div>
-  <h1>Projects</h1>
-  <p>A private, always-current view of what's in motion, what's waiting on you, and what just wrapped. Sign in with the email this was shared with.</p>
-  <div id="emailstep">
-    <input id="email" class="field" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
-    <button id="sendlink" class="btn">Email me a sign-in link</button>
+<!-- ============ HOME ============ -->
+<div id="view-home" class="page">
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#12141c" stroke="rgba(255,255,255,.09)"/><g fill="none" stroke="#8a7dff" stroke-width="4" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4" fill="#8a7dff"/></svg>
+      <div>
+        <div class="name">Hunch</div>
+        <div class="tag">what your assistant is up to</div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="livepill" id="livepill"><span class="livedot"></span><span id="updated">Connecting</span></div>
+      <button class="iconbtn" id="btn-refresh" title="Refresh" aria-label="Refresh">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+      </button>
+      <button class="iconbtn" id="btn-settings" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="demobar hidden" id="demobar">
+    <div class="txt"><b>You're viewing the demo.</b> This is what Hunch looks like with an assistant writing to it.</div>
+    <button id="btn-makemine">Make it yours</button>
   </div>
-  <div id="codestep" style="display:none">
-    <button id="back" class="btn sec">Use a different email</button>
+
+  <div class="hello" id="hello">
+    <div class="greet" id="greet">Good evening</div>
+    <div class="sum" id="sumline"></div>
   </div>
-  <div id="smsg" class="msg"></div>
+
+  <div id="skeletons"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>
+  <div id="groups"></div>
+
+  <div class="foot">
+    <div class="lhs">
+      <a href="#" id="link-about">How it works</a>
+      <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="sig" id="footsig">unofficial · built for Instinct</div>
+  </div>
+</div>
 </div>
 
-<!-- APP -->
-<div id="app" style="display:none">
-<div class="wrap">
-  <div id="home">
-    <header class="top">
-      <div>
-        <h1>Projects</h1>
-        <div class="sub">What's in motion, in plain English.</div>
-      </div>
-    </header>
-    <div class="refreshline">
-      <span id="updated" class="updated">Loading…</span>
-      <button id="refresh" class="iconbtn">Refresh</button>
-    </div>
-    <div id="groups"></div>
-    <div class="foot">
-      <a href="#about">How this works</a>
-      <a href="#" id="signout">Sign out</a>
-    </div>
+<!-- ============ SIGN IN ============ -->
+<div id="view-signin" class="page">
+<div class="solo">
+  <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#8a7dff" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#8a7dff"/></svg></div>
+  <h1>Sign in to Hunch</h1>
+  <p class="lede">A private, always-current view of what's in motion, what's waiting on you, and what just wrapped. Sign in with the email this dashboard belongs to.</p>
+  <input id="email" class="field" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
+  <button id="btn-sendlink" class="btn">Email me a sign-in link</button>
+  <div id="signin-msg" class="msg"></div>
+  <div class="backrow"><a href="#" id="link-back-setup">Change connection settings</a></div>
+</div>
+</div>
+
+<!-- ============ SETUP ============ -->
+<div id="view-setup" class="page">
+<div class="solo" style="max-width:480px">
+  <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#8a7dff" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#8a7dff"/></svg></div>
+  <h1 id="setup-title">Make Hunch yours</h1>
+  <p class="lede">Hunch is one page plus a tiny database. About ten minutes, all on free plans. Your credentials below live only in this browser.</p>
+
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
+    <div class="step"><div class="n">2</div><div class="t"><b>Run <code>setup.sql</code></b> from the repo in the Supabase SQL editor. It creates the table, locks it down to you, and adds demo rows.</div></div>
+    <div class="step"><div class="n">3</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable "Allow new users to sign up", then Authentication → Users → Add user with your email.</div></div>
+    <div class="step"><div class="n">4</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is safe in the browser - row-level security is what guards your rows.</div></div>
   </div>
 
-  <div id="about" class="about" style="display:none">
-    <header class="top">
-      <div>
-        <h1>How this works</h1>
-        <div class="sub">The build sheet, in plain English.</div>
-      </div>
-    </header>
+  <label class="lab" for="cfg-url">Supabase project URL</label>
+  <input id="cfg-url" class="field" type="url" inputmode="url" placeholder="https://abcdefgh.supabase.co" autocapitalize="off" autocorrect="off">
+  <label class="lab" for="cfg-key">Publishable anon key</label>
+  <input id="cfg-key" class="field" type="text" placeholder="sb_publishable_... or eyJhbGciOi..." autocapitalize="off" autocorrect="off">
+  <button id="btn-connect" class="btn">Test connection &amp; save</button>
+  <div id="setup-msg" class="msg"></div>
 
-    <h2>What you're looking at</h2>
-    <p>A small private web app that shows what your AI assistant is doing for you: active work, things waiting on your call, and recently finished work. Each card has the current status, the last meaningful update, and the next move.</p>
+  <div class="steps" style="margin-top:26px">
+    <div class="step"><div class="n">5</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <code>WRITER.md</code> from the repo. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+  </div>
 
-    <h2>How it stays current</h2>
-    <svg class="diagram" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Update flow diagram">
-      <rect x="8" y="18" width="104" height="46" rx="10" fill="#0f172a"/>
-      <text x="60" y="37" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Assistant</text>
-      <text x="60" y="52" text-anchor="middle" fill="#94a3b8" font-size="9.5">does the work</text>
-      <path d="M112 41 H146" stroke="#94a3b8" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
-      <rect x="148" y="18" width="104" height="46" rx="10" fill="#eef0fe" stroke="#c7cdf9"/>
-      <text x="200" y="37" text-anchor="middle" fill="#3730a3" font-size="12" font-weight="700">Project list</text>
-      <text x="200" y="52" text-anchor="middle" fill="#6d6ab8" font-size="9.5">Supabase database</text>
-      <path d="M252 41 H286" stroke="#94a3b8" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
-      <rect x="288" y="18" width="64" height="46" rx="10" fill="#fff" stroke="#e6e8ee"/>
-      <text x="320" y="37" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">This app</text>
-      <text x="320" y="52" text-anchor="middle" fill="#64748b" font-size="9.5">read-only</text>
-      <text x="180" y="96" text-anchor="middle" fill="#64748b" font-size="10.5">When work starts, moves, or finishes, your assistant writes the change.</text>
-      <text x="180" y="112" text-anchor="middle" fill="#64748b" font-size="10.5">Your phone reads the latest list whenever you open or refresh.</text>
-      <text x="180" y="136" text-anchor="middle" fill="#94a3b8" font-size="10">Nothing you type here edits the work itself — it's a window, not a control panel.</text>
-      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#94a3b8" stroke-width="1.4"/></marker></defs>
-    </svg>
-    <p>Your assistant's own task list is the source of truth. As work is started, updated, or completed, the assistant writes a short plain-English entry into a small database behind this app. The app only reads it. If something looks stale, pull the page or tap Refresh.</p>
+  <div class="backrow"><a href="#" id="link-back-demo">Back to the demo</a></div>
+</div>
+</div>
 
-    <h2>Who can see it</h2>
-    <ul>
-      <li>Only someone who can receive email at <b>your address</b> can sign in (a sign-in link is emailed, no password).</li>
-      <li>The database enforces this again on its side: it only hands rows to your signed-in identity (row-level security).</li>
-      <li>The app is not listed anywhere; only people you share the link and sign-in email with can reach it.</li>
+<!-- ============ ABOUT ============ -->
+<div id="view-about" class="page">
+<div class="wrap about">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" width="34" height="34"><rect width="64" height="64" rx="15" fill="#12141c" stroke="rgba(255,255,255,.09)"/><g fill="none" stroke="#8a7dff" stroke-width="4" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4" fill="#8a7dff"/></svg>
+      <div><div class="name">How Hunch works</div><div class="tag">the build sheet, in plain English</div></div>
+    </div>
+  </header>
+
+  <h2>What you're looking at</h2>
+  <p>A small private web app that answers one question: <b>what is my AI assistant actually working on right now?</b> Active work, things waiting on your call, and recently finished work - each card with the current status, the last meaningful update, and the next move.</p>
+
+  <h2>How it stays current</h2>
+  <svg class="diagram" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Update flow diagram">
+    <rect x="8" y="18" width="104" height="46" rx="10" fill="#161926" stroke="rgba(255,255,255,.1)"/>
+    <text x="60" y="38" text-anchor="middle" fill="#f2f3f7" font-size="11.5" font-weight="700" font-family="Inter,sans-serif">Your assistant</text>
+    <text x="60" y="53" text-anchor="middle" fill="#9ba0b0" font-size="9.5" font-family="Inter,sans-serif">writes updates</text>
+    <path d="M112 41 H146" stroke="#8a7dff" stroke-width="1.6" fill="none"/>
+    <path d="M141 36 L148 41 L141 46" stroke="#8a7dff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <rect x="148" y="18" width="104" height="46" rx="10" fill="#161926" stroke="rgba(255,255,255,.1)"/>
+    <text x="200" y="38" text-anchor="middle" fill="#f2f3f7" font-size="11.5" font-weight="700" font-family="Inter,sans-serif">Supabase</text>
+    <text x="200" y="53" text-anchor="middle" fill="#9ba0b0" font-size="9.5" font-family="Inter,sans-serif">one tiny table</text>
+    <path d="M200 64 V88" stroke="#8a7dff" stroke-width="1.6" fill="none"/>
+    <path d="M195 83 L200 90 L205 83" stroke="#8a7dff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <rect x="148" y="90" width="104" height="46" rx="10" fill="#161926" stroke="rgba(255,255,255,.1)"/>
+    <text x="200" y="110" text-anchor="middle" fill="#f2f3f7" font-size="11.5" font-weight="700" font-family="Inter,sans-serif">This page</text>
+    <text x="200" y="125" text-anchor="middle" fill="#9ba0b0" font-size="9.5" font-family="Inter,sans-serif">read-only</text>
+  </svg>
+  <ul>
+    <li><b>The assistant writes.</b> As work starts, moves, waits, or completes, the assistant upserts one plain-English row per outcome into your database, using the service-role key that stays server-side.</li>
+    <li><b>The app reads.</b> This page reads those rows through row-level security with a publishable key. There is no write path from the browser at all.</li>
+    <li><b>You look.</b> No chat archaeology. Open the page, see the state of your life in ten seconds.</li>
+  </ul>
+
+  <h2>Security model</h2>
+  <div class="box">
+    <ul style="padding-left:19px">
+      <li>Sign-in is a magic link to your email. New sign-ups are disabled, so a stranger's email gets rejected.</li>
+      <li>Postgres row-level security releases rows only to your user id - even with the publishable key, nobody else can read them.</li>
+      <li>The service-role key (full write access) stays with the writer. It is never in this page, the repo, or the browser.</li>
     </ul>
-
-    <h2>The pieces</h2>
-    <div class="box">
-      <ul>
-        <li><b>This page:</b> a static HTML/JS app hosted on <b>Surge</b>. It receives only the app files.</li>
-        <li><b>Sign-in + storage:</b> <b>Supabase</b> (a hosted Postgres database with email sign-in). It receives your email address for sign-in links, and stores the project list: titles, statuses, updates, and next moves.</li>
-        <li><b>Writing updates:</b> your assistant (or any script you run), using the private service key. The key is never in the app or the browser.</li>
-        <li><b>Source code:</b> this repository. Fork it and point it at your own Supabase project.</li>
-      </ul>
-    </div>
-
-    <h2>What it costs</h2>
-    <p>Nothing right now. Surge and Supabase both run on free plans that comfortably cover a single-user app (Supabase free: 500 MB database, 2 GB bandwidth/month; free projects pause after about a week of no activity and unpause on the next visit). No credit card is on file for any of it. If a provider ever charges, that needs your approval first.</p>
-
-    <h2>If you want it changed or gone</h2>
-    <p>Ask your assistant. The list can add sections (money, home, people), show history per project, or send a nudge when something starts waiting on you. The whole thing — app, database, repo — can also be exported or deleted on request.</p>
-
-    <div class="foot">
-      <a href="#home">← Back to projects</a>
-      <a href="#" id="signout2">Sign out</a>
-    </div>
   </div>
+
+  <h2>What it is not</h2>
+  <p>Hunch is a window, not a control panel. Nothing here edits the work itself. It is also <b>unofficial</b>: built by a user, for use with <a href="https://instinct.com" target="_blank" rel="noopener">Instinct</a>, and not affiliated with or endorsed by Instinct. The name is a synonym, not a claim.</p>
+
+  <div class="backrow" style="margin-top:34px"><a href="#" id="link-home">Back to your projects</a></div>
 </div>
 </div>
 
 <script src="supabase.min.js"></script>
 <script>
-const SUPABASE_URL='https://YOUR-PROJECT-REF.supabase.co'; // your Supabase project URL
-const SUPABASE_KEY='YOUR-PUBLISHABLE-ANON-KEY'; // Supabase anon/publishable key (safe to expose; RLS protects the data)
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{flowType:'pkce'}});
-const $=id=>document.getElementById(id);
-let session=null, lastFetch=null, timer=null;
+(function(){
+'use strict';
 
-function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function ago(ts){
-  const s=(Date.now()-new Date(ts).getTime())/1000;
-  if(s<60)return 'just now';
-  const m=Math.floor(s/60); if(m<60)return m+'m ago';
-  const h=Math.floor(m/60); if(h<24)return h+'h ago';
-  const d=Math.floor(h/24); if(d<7)return d+'d ago';
+/* ================= config & state ================= */
+var CFG_KEY='hunch.cfg';
+var state={mode:'demo', sb:null, session:null, rows:[], loading:true, showAllDone:false, lastFetch:null};
+function getCfg(){ try{return JSON.parse(localStorage.getItem(CFG_KEY)||'null');}catch(e){return null;} }
+function setCfg(c){ localStorage.setItem(CFG_KEY, JSON.stringify(c)); }
+function clearCfg(){ localStorage.removeItem(CFG_KEY); }
+
+/* ================= demo data ================= */
+function demoRows(){
+  var now=Date.now(), m=60000, h=3600000, d=86400000;
+  return [
+    {slug:'kyoto-trip',title:'Kyoto trip, cherry blossom week',category:'travel',state:'waiting',sort:10,
+     status:'Waiting on your pick of two ryokan neighborhoods.',
+     last_update:'Found 4 well-reviewed machiya stays near Gion within budget; two hold sunset views.',
+     last_update_at:new Date(now-2*h).toISOString(),next_move:'Tell your assistant: Gion or Arashiyama.'},
+    {slug:'half-marathon',title:'Half-marathon training',category:'health',state:'active',sort:20,
+     status:'Week 6 of 12 underway; long run is tomorrow.',
+     last_update:'Logged Tuesday intervals and adjusted Sunday\'s route to 11 miles.',
+     last_update_at:new Date(now-5*h).toISOString(),next_move:'Your assistant checks in after tomorrow\'s run.'},
+    {slug:'apartment-hunt',title:'Apartment hunt, West Village',category:'home',state:'active',sort:30,
+     status:'Watching new listings against your must-haves.',
+     last_update:'Two new 1-beds match on light and budget; tour slots requested for Saturday.',
+     last_update_at:new Date(now-26*h).toISOString(),next_move:'Confirm Saturday tour times when the broker replies.'},
+    {slug:'piano',title:'Learning piano',category:'learning',state:'active',sort:40,
+     status:'Daily practice streak at 19 days.',
+     last_update:'Tonight\'s drill: left-hand arpeggios on the Chopin prelude, measures 5-8.',
+     last_update_at:new Date(now-8*h).toISOString(),next_move:'Next practice prompt lands tomorrow at 6pm.'},
+    {slug:'passport',title:'Passport renewal',category:'personal',state:'done',sort:50,
+     status:'Renewed and delivered.',
+     last_update:'New passport arrived; old one returned separately. Global Entry carried over.',
+     last_update_at:new Date(now-3*d).toISOString(),next_move:null},
+    {slug:'tax-extension',title:'Tax filing paperwork',category:'money',state:'done',sort:60,
+     status:'Filed and accepted.',
+     last_update:'Return accepted by the IRS; refund expected within 2-3 weeks.',
+     last_update_at:new Date(now-5*d).toISOString(),next_move:null}
+  ];
+}
+
+/* ================= helpers ================= */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function rel(ts){
+  var s=(Date.now()-new Date(ts).getTime())/1000; if(s<0)s=0;
+  if(s<60) return 'just now';
+  var m=Math.floor(s/60); if(m<60) return m+'m ago';
+  var h=Math.floor(m/60); if(h<24) return h+'h ago';
+  var d=Math.floor(h/24); if(d<7) return d+'d ago';
   return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric'});
 }
-function smsg(kind,text){const e=$('smsg');e.className='msg '+kind;e.innerHTML=text;}
+function toast(t){ var c=document.getElementById('toasts');var d=document.createElement('div');d.className='toast';d.textContent=t;c.appendChild(d);setTimeout(function(){d.style.opacity='0';d.style.transition='opacity .3s';setTimeout(function(){d.remove();},320);},3600); }
+function show(id){ document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');}); document.getElementById(id).classList.add('on'); window.scrollTo(0,0); }
 
-async function sendLink(){
-  const email=$('email').value.trim();
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){smsg('err','Enter a valid email address.');$('email').classList.add('shake');setTimeout(()=>$('email').classList.remove('shake'),350);return;}
-  $('sendlink').disabled=true;
-  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
-  $('sendlink').disabled=false;
-  if(error){smsg('err',esc(error.message));return;}
-  smsg('ok','Sent. Open <b>'+esc(email)+'</b> on this device and tap the sign-in link. It brings you straight back here.');
-  $('codestep').style.display='block';$('emailstep').style.display='none';
-}
-
-
-const GROUPS=[
-  {key:'active', title:'In motion', empty:'Nothing active right now.'},
-  {key:'waiting', title:'Waiting on you', empty:'Nothing waiting on you.'},
-  {key:'done', title:'Recently completed', empty:'Nothing completed yet.'}
+/* ================= rendering ================= */
+var GROUPS=[
+  {key:'active',cls:'a',label:'In motion'},
+  {key:'waiting',cls:'w',label:'Waiting on you'},
+  {key:'done',cls:'d',label:'Recently completed'}
 ];
-function card(p){
-  const cat=esc(p.category||'personal');
-  let h='<div class="card"><span class="cat '+cat.toLowerCase()+'">'+cat+'</span>';
-  h+='<h3>'+esc(p.title)+'</h3>';
-  h+='<div class="status">'+esc(p.status)+'</div>';
-  h+='<div class="meta"><div class="mrow"><b>Last update</b> · '+ago(p.last_update_at)+' — '+esc(p.last_update)+'</div></div>';
-  if(p.next_move) h+='<div class="next"><b>Next:</b> '+esc(p.next_move)+'</div>';
-  h+='</div>';
-  return h;
+function groupRows(key){
+  var r=state.rows.filter(function(x){return x.state===key;});
+  if(key==='done') r.sort(function(a,b){return new Date(b.last_update_at)-new Date(a.last_update_at);});
+  else r.sort(function(a,b){return (a.sort||50)-(b.sort||50);});
+  return r;
 }
-async function load(showSpinner){
-  if(!session)return;
-  if(showSpinner)$('updated').innerHTML='<span class="spin"></span> Refreshing…';
-  const {data,error}=await sb.from('projects').select('*').order('sort',{ascending:true}).order('last_update_at',{ascending:false});
-  if(error){$('updated').textContent='Could not refresh — try again';return;}
-  lastFetch=Date.now();
-  const by={active:[],waiting:[],done:[]};
-  (data||[]).forEach(p=>{(by[p.state]||by.active).push(p);});
-  let html='';
-  GROUPS.forEach(g=>{
-    const rows=by[g.key];
-    html+='<div class="group"><h2>'+g.title+' <span class="pill">'+rows.length+'</span></h2>';
-    html+= rows.length? rows.map(card).join('') : '<div class="empty">'+g.empty+'</div>';
-    html+='</div>';
+function cardHTML(p){
+  var cat=(p.category||'personal').toLowerCase();
+  var html='<div class="card st-'+esc(p.state)+'">'
+    +'<div class="topline"><span class="cat '+esc(cat)+'">'+esc(cat)+'</span><span class="ago">'+esc(rel(p.last_update_at))+'</span></div>'
+    +'<h3>'+esc(p.title)+'</h3>'
+    +'<div class="status">'+esc(p.status)+'</div>'
+    +'<div class="meta">'
+    +'<div class="mrow"><span class="k">Update</span><span>'+esc(p.last_update)+'</span></div>'
+    +'</div>';
+  if(p.next_move){
+    html+='<div class="next'+(p.state==='waiting'?' warn':'')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><span>'+esc(p.next_move)+'</span></div>';
+  }
+  html+='</div>';
+  return html;
+}
+function render(){
+  document.getElementById('skeletons').style.display='none';
+  var host=document.getElementById('groups'); host.innerHTML='';
+  var counts={active:0,waiting:0,done:0};
+  state.rows.forEach(function(r){ if(counts[r.state]!=null) counts[r.state]++; });
+
+  // greeting + summary
+  var hr=new Date().getHours();
+  var g= hr<5?'Up late': hr<12?'Good morning': hr<18?'Good afternoon':'Good evening';
+  document.getElementById('greet').textContent=g;
+  var parts=[];
+  if(counts.active) parts.push('<b>'+counts.active+'</b> in motion');
+  if(counts.waiting) parts.push('<span class="w">'+counts.waiting+' waiting on you</span>');
+  if(counts.done) parts.push('<b>'+counts.done+'</b> recently wrapped');
+  document.getElementById('sumline').innerHTML= parts.length? parts.join(' · ') : 'Nothing on the board yet.';
+
+  GROUPS.forEach(function(gr){
+    var rows=groupRows(gr.key);
+    if(gr.key==='done' && !state.showAllDone) rows=rows.slice(0,4);
+    var sec=document.createElement('div'); sec.className='group';
+    var head='<div class="grouphead"><span class="dot '+gr.cls+'"></span><h2>'+gr.label+'</h2><span class="count">'+counts[gr.key]+'</span></div>';
+    var body='';
+    if(!rows.length) body='<div class="empty">'+(gr.key==='done'?'Nothing wrapped yet.':gr.key==='waiting'?'Nothing needs your call. Nice.':'Nothing in motion.')+'</div>';
+    else body=rows.map(cardHTML).join('');
+    if(gr.key==='done' && counts.done>4 && !state.showAllDone){
+      body+='<button class="showall" id="btn-showall">Show all '+counts.done+' completed</button>';
+    }
+    sec.innerHTML=head+body;
+    host.appendChild(sec);
   });
-  $('groups').innerHTML=html;
-  $('updated').className='updated live';
-  $('updated').textContent='Updated '+ago(new Date(lastFetch).toISOString());
+  var sa=document.getElementById('btn-showall');
+  if(sa) sa.addEventListener('click',function(){ state.showAllDone=true; render(); });
+
+  var up=document.getElementById('updated');
+  if(state.mode==='demo'){ up.textContent='Demo'; }
+  else if(state.lastFetch){ up.textContent='Live · '+rel(state.lastFetch); }
 }
-function route(){
-  const h=(location.hash||'#home').slice(1);
-  $('home').style.display = h==='about'?'none':'block';
-  $('about').style.display = h==='about'?'block':'none';
-  window.scrollTo(0,0);
+
+/* ================= data ================= */
+function fetchRows(){
+  if(state.mode==='demo'){
+    state.rows=demoRows(); state.lastFetch=Date.now(); render(); return Promise.resolve();
+  }
+  var upd=document.getElementById('updated'); upd.textContent='Refreshing';
+  return state.sb.from('projects').select('*').then(function(res){
+    if(res.error){ upd.textContent='Error'; toast('Could not load projects: '+res.error.message); return; }
+    state.rows=res.data||[]; state.lastFetch=Date.now(); render();
+  }).catch(function(e){ upd.textContent='Error'; toast('Connection problem. Pull to refresh later.'); });
 }
-async function boot(){
-  const {data:{session:s}}=await sb.auth.getSession();
-  session=s;
-  $('signin').style.display=session?'none':'block';
-  $('app').style.display=session?'block':'none';
-  if(session){route();load(true);}
+
+/* ================= auth & connection ================= */
+function enterDemo(){
+  state.mode='demo'; state.sb=null; state.session=null; state.rows=demoRows();
+  document.getElementById('demobar').classList.remove('hidden');
+  document.getElementById('livepill').style.display='flex';
+  show('view-home'); render();
 }
-sb.auth.onAuthStateChange((_e,s)=>{session=s;boot();});
-window.addEventListener('hashchange',route);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&session)load(false);});
-$('sendlink').onclick=sendLink;
-$('back').onclick=()=>{$('codestep').style.display='none';$('emailstep').style.display='block';$('smsg').className='msg';};
-$('refresh').onclick=()=>load(true);
-const doOut=async()=>{await sb.auth.signOut();location.hash='';boot();};
-$('signout').onclick=doOut;$('signout2').onclick=doOut;
-setInterval(()=>{if(session&&!document.hidden){load(false);}},60000);
-boot();
+function makeClient(cfg){
+  return supabase.createClient(cfg.url.replace(/\/+$/,''), cfg.key, {auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}});
+}
+function enterSupabase(cfg){
+  state.mode='live'; state.sb=makeClient(cfg);
+  document.getElementById('demobar').classList.add('hidden');
+  state.sb.auth.getSession().then(function(r){
+    state.session=r.data&&r.data.session;
+    if(state.session){ show('view-home'); document.getElementById('skeletons').style.display='block'; fetchRows(); }
+    else show('view-signin');
+  });
+  state.sb.auth.onAuthStateChange(function(ev,sess){
+    state.session=sess;
+    if(sess){ show('view-home'); fetchRows(); }
+    else if(state.mode==='live') show('view-signin');
+  });
+}
+
+/* ================= events ================= */
+document.getElementById('btn-refresh').addEventListener('click',function(){
+  var b=this; b.classList.add('spinning');
+  fetchRows().finally? fetchRows().finally(function(){setTimeout(function(){b.classList.remove('spinning');},400);}) : setTimeout(function(){b.classList.remove('spinning');},600);
+});
+document.getElementById('btn-settings').addEventListener('click',function(){
+  if(state.mode==='demo') show('view-setup');
+  else {
+    var cfg=getCfg();
+    document.getElementById('cfg-url').value=cfg?cfg.url:'';
+    document.getElementById('cfg-key').value=cfg?cfg.key:'';
+    document.getElementById('setup-title').textContent='Connection settings';
+    show('view-setup');
+  }
+});
+document.getElementById('btn-makemine').addEventListener('click',function(){ show('view-setup'); });
+document.getElementById('link-about').addEventListener('click',function(e){ e.preventDefault(); show('view-about'); });
+document.getElementById('link-home').addEventListener('click',function(e){ e.preventDefault(); show('view-home'); render(); });
+document.getElementById('link-back-demo').addEventListener('click',function(e){
+  e.preventDefault();
+  if(state.mode==='demo'){ show('view-home'); render(); }
+  else { show('view-home'); render(); }
+});
+document.getElementById('link-back-setup').addEventListener('click',function(e){
+  e.preventDefault();
+  var cfg=getCfg();
+  document.getElementById('cfg-url').value=cfg?cfg.url:'';
+  document.getElementById('cfg-key').value=cfg?cfg.key:'';
+  show('view-setup');
+});
+document.getElementById('btn-sendlink').addEventListener('click',function(){
+  var email=document.getElementById('email').value.trim();
+  var msg=document.getElementById('signin-msg');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.className='msg err'; msg.textContent='That does not look like an email address.'; return; }
+  var btn=this; btn.disabled=true; btn.textContent='Sending…';
+  state.sb.auth.signInWithOtp({email:email, options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
+    btn.disabled=false; btn.textContent='Email me a sign-in link';
+    if(r.error){ msg.className='msg err'; msg.textContent=r.error.message; }
+    else { msg.className='msg ok'; msg.textContent='Check your email for a sign-in link. It opens right back here.'; }
+  });
+});
+document.getElementById('btn-connect').addEventListener('click',function(){
+  var url=document.getElementById('cfg-url').value.trim();
+  var key=document.getElementById('cfg-key').value.trim();
+  var msg=document.getElementById('setup-msg');
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co/.test(url)){ msg.className='msg err'; msg.textContent='Project URL should look like https://your-ref.supabase.co'; return; }
+  if(key.length<20){ msg.className='msg err'; msg.textContent='That key looks too short. Paste the publishable anon key from Project Settings → API.'; return; }
+  var btn=this; btn.disabled=true; btn.textContent='Testing…'; msg.className='msg info'; msg.textContent='Checking the connection…';
+  var cfg={url:url.replace(/\/+$/,''), key:key};
+  var test=makeClient(cfg);
+  test.from('projects').select('slug').limit(1).then(function(res){
+    btn.disabled=false; btn.textContent='Test connection & save';
+    if(res.error){
+      msg.className='msg err';
+      msg.textContent= /does not exist|relation/i.test(res.error.message)
+        ? 'Connected, but the projects table is missing. Run setup.sql in the Supabase SQL editor first (step 2).'
+        : ('Connection failed: '+res.error.message);
+      return;
+    }
+    setCfg(cfg);
+    msg.className='msg ok'; msg.textContent='Connected. Loading your dashboard…';
+    setTimeout(function(){ enterSupabase(cfg); },700);
+  }).catch(function(){
+    btn.disabled=false; btn.textContent='Test connection & save';
+    msg.className='msg err'; msg.textContent='Could not reach that project. Check the URL and that the project is not paused.';
+  });
+});
+
+/* ================= boot ================= */
+var cfg=getCfg();
+if(cfg && cfg.url && cfg.key) enterSupabase(cfg); else enterDemo();
+
+// refresh cycle: data every 60s, relative times every 30s
+setInterval(function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); },60000);
+setInterval(function(){ if(!document.hidden && !state.loading) render(); },30000);
+document.addEventListener('visibilitychange',function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); });
+})();
 </script>
 </body>
 </html>
