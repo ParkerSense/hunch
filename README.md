@@ -22,7 +22,7 @@ and what just wrapped.
 
 ## Why this exists
 
-Personal AI assistants do real work in the background, but the work lives inside a chat thread. Finding out what's active, what's blocked on you, and what's done means rereading the conversation. Hunch is a window onto that state: the assistant writes short plain-English rows into a tiny database as work happens, and this page renders them. It's a window, not a control panel — nothing in the app edits the work itself.
+Personal AI assistants do real work in the background, but the work lives inside a chat thread. Finding out what's active, what's blocked on you, and what's done means rereading the conversation. Hunch is a window onto that state: the assistant writes short plain-English rows into a tiny database as work happens, and this page renders them. You could call it observability for your Instinct — what's in motion, what changed, where it's blocked, and what needs you — pointed at a life instead of a server fleet. It's a window, not a control panel — nothing in the app edits the work itself.
 
 [Instinct](https://instinct.com) is a personal AI assistant you text or call — and it has no project view, because its whole pitch is "no new interfaces." Hunch fills that gap from the outside. **It is unofficial: made by a user, not made, endorsed, or supported by Instinct.** The name is a synonym, not a claim.
 

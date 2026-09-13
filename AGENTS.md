@@ -2,8 +2,10 @@
 
 Hunch is a small, read-only status page your human can glance at to see what
 you are working on: what's in motion, what's waiting on them, and what just
-finished. You are both the installer and the writer. The page never edits
-your work; it only shows it.
+finished. You already know this pattern from your own world — it's
+observability, pointed at a person's life instead of a server fleet. You are
+both the installer and the writer. The page never edits your work; it only
+shows it.
 
 If your human sent you here, they are probably saying one of:
 

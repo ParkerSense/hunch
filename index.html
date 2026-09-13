@@ -455,7 +455,15 @@ function fetchRows(){
   }
   var upd=document.getElementById('updated'); upd.textContent='Refreshing';
   return state.sb.from('projects').select('*').then(function(res){
-    if(res.error){ upd.textContent='Error'; toast('Could not load projects: '+res.error.message); return; }
+    if(res.error){
+      if(/jwt|token|unauthorized|401|permission/i.test(res.error.message||'')){
+        state.rows=[]; state.lastFetch=null; render();
+        show('view-signin');
+        document.getElementById('signin-msg').className='msg info';
+        document.getElementById('signin-msg').textContent='Your session expired. Sign in again to see your projects.';
+        return;
+      }
+      upd.textContent='Error'; toast('Could not load projects: '+res.error.message); return; }
     state.rows=res.data||[]; state.lastFetch=Date.now(); render();
   }).catch(function(e){ upd.textContent='Error'; toast('Connection problem. Pull to refresh later.'); });
 }
@@ -493,7 +501,9 @@ function enterSupabase(cfg){
 /* ================= events ================= */
 document.getElementById('btn-refresh').addEventListener('click',function(){
   var b=this; b.classList.add('spinning');
-  fetchRows().finally? fetchRows().finally(function(){setTimeout(function(){b.classList.remove('spinning');},400);}) : setTimeout(function(){b.classList.remove('spinning');},600);
+  var p=fetchRows();
+  if(p && p.finally) p.finally(function(){setTimeout(function(){b.classList.remove('spinning');},400);});
+  else setTimeout(function(){b.classList.remove('spinning');},600);
 });
 document.getElementById('btn-settings').addEventListener('click',function(){
   document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
@@ -529,6 +539,9 @@ document.getElementById('link-disconnect').addEventListener('click',function(e){
 document.getElementById('link-signout').addEventListener('click',function(e){
   e.preventDefault();
   if(state.sb) state.sb.auth.signOut();
+  state.rows=[]; state.lastFetch=null;
+  render();
+  show('view-signin');
   toast('Signed out.');
 });
 document.getElementById('link-back-setup').addEventListener('click',function(e){
