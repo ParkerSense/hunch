@@ -6,7 +6,7 @@
 
 **The unofficial open-source dashboard for [Instinct](https://instinct.com).**
 
-What is your AI assistant actually doing right now? One private page
+What is your Instinct working on right now? One private page
 answers it in ten seconds: what's in motion, what's waiting on you,
 and what just wrapped.
 
@@ -22,20 +22,20 @@ and what just wrapped.
 
 ## Why this exists
 
-Personal AI assistants do real work in the background, but the work lives inside a chat thread. Finding out what's active, what's blocked on you, and what's done means rereading the conversation. Hunch is a window onto that state: the assistant writes short plain-English rows into a tiny database as work happens, and this page renders them. You could call it observability for your Instinct - what's in motion, what changed, where it's blocked, and what needs you - pointed at a life instead of a server fleet. It's a window, not a control panel - nothing in the app edits the work itself.
+Your Instinct does real work in the background, but the work lives inside a chat thread. Finding out what's active, what's blocked on you, and what's done means rereading the conversation. Hunch is a window onto that state: your Instinct writes short plain-English rows as work happens, and this page renders them. You could call it observability for your Instinct - what's in motion, what changed, where it's blocked, and what needs you - pointed at a life instead of a server fleet. It's a window, not a control panel - nothing in the app edits the work itself.
 
 [Instinct](https://instinct.com) is a personal AI assistant you text or call - and it has no project view, because its whole pitch is "no new interfaces." Hunch fills that gap from the outside. **It is unofficial: made by a user, not made, endorsed, or supported by Instinct.** The name is a synonym, not a claim.
 
-## Built for your assistant to run
+## Built for your Instinct to run
 
-Hunch is designed to be installed and maintained by your AI assistant, not by you. The onboarding flow:
+Hunch is designed to be installed and maintained by your Instinct, not by you. The onboarding flow:
 
-1. **You say one sentence.** Send your assistant this repo: "set up Hunch for me."
-2. **Your assistant reads [`AGENTS.md`](AGENTS.md)** and explains the privacy boundary in plain English: what data it will write, where it lives (one encrypted file on a static host), who can read it (whoever holds your link), and that the link itself is the password. You approve before anything happens.
-3. **Your assistant does everything.** Deploys the page to a free static host, publishes the first encrypted snapshot, and hands you the link. There is no account to create and no human-verification wall - the default path has zero unavoidable human steps.
+1. **You say one sentence.** Send your Instinct this repo: "set up Hunch for me."
+2. **Your Instinct reads [`AGENTS.md`](AGENTS.md)** and explains the privacy boundary in plain English: what data it will write, where it lives (one encrypted file on a static host), who can read it (whoever holds your link), and that the link itself is the password. You approve before anything happens.
+3. **Your Instinct does everything.** Deploys the page to a free static host, publishes the first encrypted snapshot, and hands you the link. There is no account to create and no human-verification wall - the default path has zero unavoidable human steps.
 4. **You open the link.** Already populated, already yours. Bookmark it: the bookmark *is* your key, so it syncs to your other devices the way your bookmarks do.
 
-You stay the trust layer throughout: your host, your file, every publish inspectable as one small encrypted artifact. Details for the assistant live in [`AGENTS.md`](AGENTS.md); the write contract lives in [`WRITER.md`](WRITER.md). Prefer email sign-in and per-reader access control instead of a bearer link? The Supabase backend stays fully supported - see [Optional: Supabase backend](#optional-supabase-backend).
+You stay the trust layer throughout: your host, your file, every publish inspectable as one small encrypted artifact. Details for your Instinct live in [`AGENTS.md`](AGENTS.md); the write contract lives in [`WRITER.md`](WRITER.md). Prefer email sign-in and per-reader access control instead of a bearer link? The Supabase backend stays fully supported - see [Optional: Supabase backend](#optional-supabase-backend).
 
 ## The demo
 
@@ -43,11 +43,11 @@ You stay the trust layer throughout: your host, your file, every publish inspect
 
 ## Setup
 
-The default backend is an encrypted snapshot: one small file your assistant publishes next to the page. No database, no account, no build step, $0.
+The default backend is an encrypted snapshot: one small file your Instinct publishes next to the page. No database, no account, no build step, $0.
 
 ### Default: encrypted snapshot (agent-led, no human gates)
 
-Your assistant needs any static host it can write to - Cloudflare Pages direct upload, Netlify, GitHub Pages, S3, `npx surge` - in an account you own. Then:
+Your Instinct needs any static host it can write to - Cloudflare Pages direct upload, Netlify, GitHub Pages, S3, `npx surge` - in an account you own. Then:
 
 1. **Deploy the page.** Put `index.html` on the host (plus `supabase.min.js` only if you might use the optional backend).
 2. **Publish a snapshot.** `node publish.mjs state.json <site-dir> --base-url https://your-hunch-url` encrypts the state with a fresh random AES-256-GCM key and writes `snapshot.enc`.
@@ -62,14 +62,14 @@ Keep `snapshot.enc` out of git (it is gitignored): ciphertext history in a repo 
 
 ### Optional: Supabase backend
 
-For people who prefer email sign-in and per-reader access control over a bearer link. Ten minutes, $0, no build step. Honest tradeoffs: creating the account requires an interactive human-verification step (assistants are blocked by it on purpose), free projects pause after about a week of inactivity unless a scheduled write keeps them alive, and your data sits as readable text inside a hosted database you manage.
+For people who prefer email sign-in and per-reader access control over a bearer link. Ten minutes, $0, no build step. Honest tradeoffs: creating the account requires an interactive human-verification step (agents are blocked by it on purpose), free projects pause after about a week of inactivity unless a scheduled write keeps them alive, and your data sits as readable text inside a hosted database you manage.
 
 1. **Create a Supabase project** (free) at [supabase.com](https://supabase.com).
 2. **Add your sign-in user.** In Authentication settings, disable new sign-ups, then add your email as a user. Copy the user's UID.
 3. **Run [`setup.sql`](setup.sql)** in the SQL editor: paste your UID on the marked line first, then run the whole file. It creates the table, locks it to you with row-level security, and seeds demo rows.
 4. **Point sign-in links at the app.** In Authentication → URL Configuration, set the Site URL to your Hunch address.
 5. **Connect the app.** Open your Hunch page, choose *Make it yours*, and paste your project URL + publishable anon key. They live only in your browser's local storage.
-6. **Wire up the writer.** Hand your assistant the service-role key and [`WRITER.md`](WRITER.md). It upserts one plain-English row per user-visible outcome.
+6. **Wire up the writer.** Hand your Instinct the service-role key and [`WRITER.md`](WRITER.md). It upserts one plain-English row per user-visible outcome.
 
 One backend per installation - no syncing and no simultaneous stores. Switching later is a re-setup, not a migration: the dashboard holds no data of its own either way.
 
@@ -83,15 +83,15 @@ It's one `index.html` (plus the vendored Supabase client for the optional backen
 ## How it works
 
 ```
-Your assistant  ── encrypts one small JSON snapshot (fresh AES-256-GCM key per publish) ──▶  snapshot.enc on your static host
+Your Instinct    ── encrypts one small JSON snapshot (fresh AES-256-GCM key per publish) ──▶  snapshot.enc on your static host
 Your phone      ── fetches the ciphertext, decrypts locally with the key from your link ──▶  one static page
 ```
 
 - **Frontend:** one `index.html`. No build step.
 - **Backend (default):** `snapshot.enc`, an AES-256-GCM encrypted JSON envelope on the same static host.
 - **Backend (optional):** Supabase free tier (Postgres, magic-link email auth, row-level security).
-- **Writer:** your assistant, via `publish.mjs` (snapshot) or the Supabase REST API.
-- **Corrections:** tell your assistant in chat. It owns the data and republishes; direct edits get overwritten on the next publish.
+- **Writer:** your Instinct, via `publish.mjs` (snapshot) or the Supabase REST API.
+- **Corrections:** tell your Instinct in chat. It owns the data and republishes; direct edits get overwritten on the next publish.
 
 Cost to run for one person: **$0** on free plans.
 
@@ -102,7 +102,7 @@ Cost to run for one person: **$0** on free plans.
 - The host stores and serves only ciphertext. The decryption key lives after the `#` in your link, and browsers never send that fragment with any request.
 - The link is the password: anyone holding it can read the dashboard until rotation. No per-reader auth, no audit log. Rotation is one republish; full revocation is deleting one file.
 - Fresh random key on every publish - there is nothing to manage, and nothing to forget to rotate.
-- Lost your link? Ask your assistant to republish; it holds the state, not your old key, and the new link replaces the old one.
+- Lost your link? Ask your Instinct to republish; it holds the state, not your old key, and the new link replaces the old one.
 - Export is the snapshot JSON itself; deletion is removing one file.
 
 **Optional: Supabase backend.**
@@ -126,7 +126,7 @@ Because "hunch" is a synonym for instinct - and that's exactly what this is: ins
 
 - `index.html` - the whole app (markup, styles, logic, demo mode, both backends, setup flow)
 - `publish.mjs` - the snapshot publisher: state JSON in, encrypted `snapshot.enc` out
-- `AGENTS.md` - the assistant-facing contract: install path, boundaries, writer rules
+- `AGENTS.md` - the Instinct-facing contract: install path, boundaries, writer rules
 - `WRITER.md` - the write contract in detail, with copy-paste commands
 - `supabase.min.js` - Supabase JS client (MIT, © Supabase), used only by the optional backend
 - `setup.sql` - table + row-level security + demo rows, for the optional backend

@@ -6,15 +6,15 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#ffffff">
 <title>Hunch - the unofficial dashboard for Instinct</title>
-<meta name="description" content="Hunch is the unofficial open-source dashboard for Instinct: a private, always-current page showing what your assistant is working on - in motion, waiting on you, and done. Not affiliated with or endorsed by Instinct.">
+<meta name="description" content="Hunch is the unofficial open-source dashboard for Instinct: a private, always-current page showing what your Instinct is working on - in motion, waiting on you, and done. Not affiliated with or endorsed by Instinct.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hunch">
-<meta property="og:description" content="The unofficial open-source dashboard for Instinct. What is your assistant actually doing? One glance: in motion, waiting on you, done.">
+<meta property="og:description" content="The unofficial open-source dashboard for Instinct. What is your Instinct working on right now? One glance: in motion, waiting on you, done.">
 <meta property="og:image" content="https://hunch-app.pages.dev/assets/og.png">
 <meta property="og:url" content="https://hunch-app.pages.dev">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hunch">
-<meta name="twitter:description" content="The unofficial open-source dashboard for Instinct. What is your assistant actually doing? One glance: in motion, waiting on you, done.">
+<meta name="twitter:description" content="The unofficial open-source dashboard for Instinct. What is your Instinct working on right now? One glance: in motion, waiting on you, done.">
 <meta name="twitter:image" content="https://hunch-app.pages.dev/assets/og.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ffffff'/%3E%3Cg fill='none' stroke='%2315130f' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M20 40a12 12 0 0 1 24 0'/%3E%3Cpath d='M13 40a19 19 0 0 1 38 0' opacity='.55'/%3E%3Cpath d='M27 40a5 5 0 0 1 10 0'/%3E%3C/g%3E%3Ccircle cx='32' cy='44' r='4' fill='%2315130f'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
@@ -183,7 +183,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   </header>
 
   <div class="demobar hidden" id="demobar">
-    <div class="txt"><b>You're viewing the demo.</b> This is what Hunch looks like with an assistant writing to it.</div>
+    <div class="txt"><b>You're viewing the demo.</b> This is what Hunch looks like with an Instinct writing to it.</div>
     <button id="btn-makemine">Make it yours</button>
   </div>
 
@@ -225,7 +225,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <div class="solo">
   <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
   <h1 id="locked-title">This dashboard is locked</h1>
-  <p class="lede" id="locked-body">Your data lives in an encrypted snapshot on this site. Open the full link your assistant gave you - the part after # is the key, and it never leaves your browser.</p>
+  <p class="lede" id="locked-body">Your data lives in an encrypted snapshot on this site. Open the full link your Instinct gave you - the part after # is the key, and it never leaves your browser.</p>
   <div class="backrow"><a href="#" id="link-locked-demo">View the demo instead</a></div>
 </div>
 </div>
@@ -235,8 +235,8 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <div class="solo" style="max-width:480px">
   <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
   <h1 id="setup-title">Make Hunch yours</h1>
-  <p class="lede">Hunch is one page plus a tiny backend. <b>The default needs no account at all:</b> your assistant publishes an encrypted snapshot to this site and hands you a link. The part after <code>#</code> is the only key - anyone with the full link can read your page, so treat it like a password. Rotation is one republish.</p>
-  <p class="lede" style="margin-top:-14px"><b>Have an AI assistant?</b> The fastest path: send it <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">the Hunch repo</a> and say "set up Hunch for me" - it does everything below with you.</p>
+  <p class="lede">Hunch is one page plus a tiny backend. <b>The default needs no account at all:</b> your Instinct publishes an encrypted snapshot to this site and hands you a link. The part after <code>#</code> is the only key - anyone with the full link can read your page, so treat it like a password. Rotation is one republish.</p>
+  <p class="lede" style="margin-top:-14px"><b>Use Instinct?</b> The fastest path: send your Instinct <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">the Hunch repo</a> and say "set up Hunch for me" - it does everything below with you.</p>
 
   <div class="steps">
     <div class="step"><div class="n">&mdash;</div><div class="t"><b>Optional: Supabase backend.</b> Adds email sign-in and per-reader access control instead of a bearer link. Tradeoffs: creating the account needs a human verification step, and free projects pause after a week of inactivity (a scheduled write keeps one alive).</div></div>
@@ -255,7 +255,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div id="setup-msg" class="msg"></div>
 
   <div class="steps" style="margin-top:26px">
-    <div class="step"><div class="n">6</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+    <div class="step"><div class="n">6</div><div class="t"><b>Hand your Instinct the keys.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
   </div>
 
   <div class="backrow"><a href="#" id="link-back-demo">Back</a> &nbsp;·&nbsp; <a href="#" id="link-disconnect" style="color:#b91c1c">Disconnect this backend</a></div>
@@ -273,12 +273,12 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   </header>
 
   <h2>What you're looking at</h2>
-  <p>A small private web app that answers one question: <b>what is my AI assistant actually working on right now?</b> Active work, things waiting on your call, and recently finished work - each card with the current status, the last meaningful update, and the next move.</p>
+  <p>A small private web app that answers one question: <b>what is my Instinct working on right now?</b> Active work, things waiting on your call, and recently finished work - each card with the current status, the last meaningful update, and the next move.</p>
 
   <h2>How it stays current</h2>
   <svg class="diagram" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Update flow diagram">
     <rect x="8" y="18" width="104" height="46" rx="10" fill="#ffffff" stroke="#d9d5cd"/>
-    <text x="60" y="38" text-anchor="middle" fill="#15130f" font-size="11.5" font-weight="700" font-family="Georgia,serif">Your assistant</text>
+    <text x="60" y="38" text-anchor="middle" fill="#15130f" font-size="11.5" font-weight="700" font-family="Georgia,serif">Your Instinct</text>
     <text x="60" y="53" text-anchor="middle" fill="#6e6a61" font-size="9.5" font-family="Georgia,serif">writes updates</text>
     <path d="M112 41 H146" stroke="#15130f" stroke-width="1.6" fill="none"/>
     <path d="M141 36 L148 41 L141 46" stroke="#15130f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
@@ -292,12 +292,12 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     <text x="200" y="125" text-anchor="middle" fill="#6e6a61" font-size="9.5" font-family="Georgia,serif">read-only</text>
   </svg>
   <ul>
-    <li><b>The assistant publishes.</b> As work starts, moves, waits, or completes, your assistant builds one small JSON snapshot of user-visible outcomes, encrypts it with a fresh random key (AES-256-GCM), and replaces one file (<code>snapshot.enc</code>) on this site. Every publish is a complete, consistent view.</li>
+    <li><b>Your Instinct publishes.</b> As work starts, moves, waits, or completes, it builds one small JSON snapshot of user-visible outcomes, encrypts it with a fresh random key (AES-256-GCM), and replaces one file (<code>snapshot.enc</code>) on this site. Every publish is a complete, consistent view.</li>
     <li><b>The app reads.</b> This page fetches the encrypted file and decrypts it locally with the key from your link. There is no write path from the browser at all.</li>
     <li><b>You look.</b> No chat archaeology. Open the page, see the state of your life in ten seconds.</li>
-    <li><b>Something looks wrong?</b> Tell your assistant in chat - it owns the snapshot and republishes it. Editing the file directly works until the next publish overwrites it.</li>
+    <li><b>Something looks wrong?</b> Tell your Instinct in chat - it owns the snapshot and republishes it. Editing the file directly works until the next publish overwrites it.</li>
   </ul>
-  <p style="color:#6e6a61;font-size:14px">Running the optional Supabase backend instead? The flow is the same shape: the assistant upserts rows into your own project, and this page reads them after email sign-in. One backend per installation - no syncing, no split brain.</p>
+  <p style="color:#6e6a61;font-size:14px">Running the optional Supabase backend instead? The flow is the same shape: your Instinct upserts rows into your own project, and this page reads them after email sign-in. One backend per installation - no syncing, no split brain.</p>
 
   <h2>Security model</h2>
   <div class="box">
@@ -339,11 +339,11 @@ function demoRows(){
     {slug:'kyoto-trip',title:'Kyoto trip, cherry blossom week',category:'travel',state:'waiting',sort:10,
      status:'Waiting on your pick of two ryokan neighborhoods.',
      last_update:'Found 4 well-reviewed machiya stays near Gion within budget; two hold sunset views.',
-     last_update_at:new Date(now-2*h).toISOString(),next_move:'Tell your assistant: Gion or Arashiyama.'},
+     last_update_at:new Date(now-2*h).toISOString(),next_move:'Tell your Instinct: Gion or Arashiyama.'},
     {slug:'half-marathon',title:'Half-marathon training',category:'health',state:'active',sort:20,
      status:'Week 6 of 12 underway; long run is tomorrow.',
      last_update:'Logged Tuesday intervals and adjusted Sunday\'s route to 11 miles.',
-     last_update_at:new Date(now-5*h).toISOString(),next_move:'Your assistant checks in after tomorrow\'s run.'},
+     last_update_at:new Date(now-5*h).toISOString(),next_move:'Your Instinct checks in after tomorrow\'s run.'},
     {slug:'apartment-hunt',title:'Apartment hunt, West Village',category:'home',state:'active',sort:30,
      status:'Watching new listings against your must-haves.',
      last_update:'Two new 1-beds match on light and budget; tour slots requested for Saturday.',
@@ -459,16 +459,16 @@ function lockedState(title,body){
 function fetchSnapshot(){
   var upd=document.getElementById('updated'); upd.textContent='Refreshing';
   return fetch('snapshot.enc',{cache:'no-store'}).then(function(r){
-    if(r.status===404){ lockedState('No snapshot here yet','Your assistant publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
+    if(r.status===404){ lockedState('No snapshot here yet','Your Instinct publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
     if(!r.ok) throw new Error('http-'+r.status);
     // static hosts with SPA fallback answer missing files with index.html -
     // that means no snapshot, not an unreadable one
     var ct=(r.headers.get('content-type')||'');
-    if(ct.indexOf('text/html')!==-1){ lockedState('No snapshot here yet','Your assistant publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
+    if(ct.indexOf('text/html')!==-1){ lockedState('No snapshot here yet','Your Instinct publishes the encrypted snapshot as work happens. If you expected data, ask it to publish an update.'); return null; }
     return r.json();
   }).then(function(env){
     if(!env) return;
-    if(!env.iv || !env.ct){ lockedState('Snapshot unreadable','The encrypted file on this site is not a valid Hunch snapshot. Ask your assistant to republish.'); return; }
+    if(!env.iv || !env.ct){ lockedState('Snapshot unreadable','The encrypted file on this site is not a valid Hunch snapshot. Ask your Instinct to republish.'); return; }
     return crypto.subtle.importKey('raw',b64uDec(state.snapKey),{name:'AES-GCM'},false,['decrypt']).then(function(key){
       return crypto.subtle.decrypt({name:'AES-GCM',iv:b64uDec(env.iv)},key,b64uDec(env.ct));
     }).then(function(pt){
@@ -480,11 +480,11 @@ function fetchSnapshot(){
     });
   }).catch(function(e){
     if(e && e.name==='OperationError'){
-      lockedState('This key does not open this snapshot','The link may be stale (rotated) or the snapshot was re-encrypted. Ask your assistant for the current link.');
+      lockedState('This key does not open this snapshot','The link may be stale (rotated) or the snapshot was re-encrypted. Ask your Instinct for the current link.');
       return;
     }
     if(e instanceof SyntaxError){
-      lockedState('Snapshot unreadable','The encrypted file on this site is not valid JSON. Ask your assistant to republish.');
+      lockedState('Snapshot unreadable','The encrypted file on this site is not valid JSON. Ask your Instinct to republish.');
       return;
     }
     upd.textContent='Error'; toast('Connection problem. Check your network and tap refresh.');
@@ -684,7 +684,7 @@ else if(cfg && cfg.url && cfg.key){
     var ct=(r.headers.get('content-type')||'');
     if(ct.indexOf('text/html')!==-1){ enterDemo(); return; } // SPA fallback, no snapshot deployed
     r.json().then(function(env){
-      if(env && env.iv && env.ct) lockedState('This dashboard is locked','Your data lives in an encrypted snapshot on this site. Open the full link your assistant gave you - the part after # is the key, and it never leaves your browser.');
+      if(env && env.iv && env.ct) lockedState('This dashboard is locked','Your data lives in an encrypted snapshot on this site. Open the full link your Instinct gave you - the part after # is the key, and it never leaves your browser.');
       else enterDemo();
     }).catch(function(){ enterDemo(); });
   }).catch(function(){ enterDemo(); });
