@@ -10,7 +10,7 @@ What is your AI assistant actually doing right now? One private page
 answers it in ten seconds: what's in motion, what's waiting on you,
 and what just wrapped.
 
-[Live demo](https://hunch.surge.sh) · [Setup](#setup) · [How it works](#how-it-works) · [Security](#security-model)
+[Live demo](https://hunch-app.pages.dev) · [Setup](#setup) · [How it works](#how-it-works) · [Security](#security-model)
 
 ![Hunch on a phone](assets/screenshot-mobile.png)
 
@@ -32,7 +32,7 @@ Hunch is designed to be installed and maintained by your AI assistant, not by yo
 
 ## The demo
 
-**[hunch.surge.sh](https://hunch.surge.sh)** opens with demo data — no account, no setup. That's the whole product in one glance. When you want your own, "Make it yours" walks you through connecting a backend.
+**[hunch-app.pages.dev](https://hunch-app.pages.dev)** opens with demo data — no account, no setup. That's the whole product in one glance. When you want your own, "Make it yours" walks you through connecting a backend.
 
 ## Setup
 
@@ -41,7 +41,7 @@ Ten minutes, $0, no build step. You need a free [Supabase](https://supabase.com)
 1. **Create a Supabase project** (free) at [supabase.com](https://supabase.com).
 2. **Add your sign-in user.** In Authentication settings, disable new sign-ups, then add your email as a user. Copy the user's UID.
 3. **Run [`setup.sql`](setup.sql)** in the SQL editor: paste your UID on the marked line first, then run the whole file. It creates the table, locks it to you with row-level security, and seeds demo rows.
-4. **Point sign-in links at the app.** In Authentication → URL Configuration, set the Site URL to `https://hunch.surge.sh` (or your own domain if you self-host).
+4. **Point sign-in links at the app.** In Authentication → URL Configuration, set the Site URL to `https://hunch-app.pages.dev` (or your own domain if you self-host).
 5. **Connect the app.** Open the hosted build, choose *Make it yours*, and paste your project URL + publishable anon key. They live only in your browser's local storage.
 6. **Wire up the writer.** Hand your assistant the service-role key and [`WRITER.md`](WRITER.md). It upserts one plain-English row per user-visible outcome as work starts, moves, waits, or completes.
 
@@ -75,7 +75,7 @@ Cost to run for one person: **$0** on free plans. (Supabase free projects pause 
 - The app is read-only: there is no write path from the browser at all.
 - Your sign-in session lives only in that browser's local storage. On a shared device, use the footer Sign out when you're done.
 - No analytics, no trackers, no third-party requests: fonts and the Supabase client are vendored in this repo. The only network calls the page makes are to your own Supabase project.
-- The hosted build at hunch.surge.sh is byte-identical to `index.html` in this repo; your connection settings never leave your browser. Self-host if you'd rather not trust a hosted copy.
+- The hosted build at hunch-app.pages.dev is byte-identical to `index.html` in this repo; your connection settings never leave your browser. Self-host if you'd rather not trust a hosted copy.
 
 ## Why "Hunch"?
 

@@ -28,12 +28,12 @@ Everything except two steps that require a human by design:
 Everything else — running `setup.sql` (with the human's auth UID pasted in),
 configuring the auth settings, connecting the app, and writing rows — is
 plain HTTPS and SQL that you can execute end to end. The exact steps are in
-the README's Setup section; the in-app wizard at https://hunch.surge.sh walks
+the README's Setup section; the in-app wizard at https://hunch-app.pages.dev walks
 the human through the same six steps if they'd rather drive.
 
 ## Evaluating Hunch for your human
 
-- Live demo with zero setup: https://hunch.surge.sh (demo data; nothing to
+- Live demo with zero setup: https://hunch-app.pages.dev (demo data; nothing to
   connect). That is the entire product surface.
 - The whole frontend is one `index.html` you can read in a minute. No build
   step, no dependencies beyond the vendored Supabase client, no tracking.
