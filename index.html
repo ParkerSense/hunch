@@ -545,8 +545,13 @@ document.getElementById('btn-sendlink').addEventListener('click',function(){
     btn.disabled=false; btn.textContent='Email me a sign-in link';
     if(r.error){ msg.className='msg err'; msg.textContent=r.error.message; }
     else { msg.className='msg ok'; msg.textContent='Check your email for a sign-in link. Open it on this device - it comes right back here.'; }
+  }).catch(function(){
+    btn.disabled=false; btn.textContent='Email me a sign-in link';
+    msg.className='msg err'; msg.textContent='Could not reach the sign-in service. Check your connection and try again.';
   });
 });
+document.getElementById('email').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('btn-sendlink').click(); } });
+['cfg-url','cfg-key'].forEach(function(id){ document.getElementById(id).addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('btn-connect').click(); } }); });
 document.getElementById('btn-connect').addEventListener('click',function(){
   var url=document.getElementById('cfg-url').value.trim();
   var key=document.getElementById('cfg-key').value.trim();

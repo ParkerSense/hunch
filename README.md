@@ -26,6 +26,10 @@ Personal AI assistants do real work in the background, but the work lives inside
 
 [Instinct](https://instinct.com) is a personal AI assistant you text or call — and it has no project view, because its whole pitch is "no new interfaces." Hunch fills that gap from the outside. **It is unofficial: made by a user, not made, endorsed, or supported by Instinct.** The name is a synonym, not a claim.
 
+## Built for your assistant to run
+
+Hunch is designed to be installed and maintained by your AI assistant, not by you. The shortest path: send your assistant this repo and say "set up Hunch for me." [`AGENTS.md`](AGENTS.md) is written for the assistant — what it can do autonomously, which two steps genuinely need you (creating the Supabase project, which has human verification, and approving where the write key lives), and the contract it writes updates with. You stay the trust layer: your account, your keys, every row inspectable in the Supabase table editor.
+
 ## The demo
 
 **[hunch.surge.sh](https://hunch.surge.sh)** opens with demo data — no account, no setup. That's the whole product in one glance. When you want your own, "Make it yours" walks you through connecting a backend.
@@ -78,6 +82,8 @@ Because "hunch" is a synonym for instinct — and that's exactly what this is: i
 ## Files
 
 - `index.html` — the whole app (markup, styles, logic, demo mode, setup flow)
+- `AGENTS.md` — the assistant-facing contract: install path, boundaries, writer rules
+- `WRITER.md` — the write contract in detail, with copy-paste curl
 - `supabase.min.js` — Supabase JS client (MIT, © Supabase)
 - `setup.sql` — table + row-level security + demo rows, in one idempotent file
 - `WRITER.md` — the writer contract (how the assistant updates rows)
