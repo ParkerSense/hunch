@@ -1,12 +1,12 @@
--- Hunch: one-file setup. Run this whole file in the Supabase SQL editor
--- (SQL Editor > New query > paste > Run).
+-- Hunch: one-file setup.
 --
--- It creates the projects table, locks it to a single owner with row-level
+-- BEFORE RUNNING: replace the zero UUID in the policy below with your own
+-- user id (Supabase dashboard > Authentication > Users > your user > copy UID).
+-- Then run this whole file once in the SQL editor (SQL Editor > New query >
+-- paste > Run). It creates the projects table, locks it to you with row-level
 -- security, and seeds demo rows so the app has something to show.
---
--- AFTER RUNNING: replace 'YOUR-USER-UUID' in the policy below with your own
--- user id (Authentication > Users > your user > copy UID), then re-run the
--- CREATE POLICY statement (or the whole file - it is idempotent).
+-- (Safe to re-run: it is idempotent. Until you set your UUID, nobody can read
+-- the table - fail closed, not open.)
 
 create table if not exists public.projects (
   slug text primary key,                  -- stable id used for upserts, e.g. 'kyoto-trip'
@@ -28,7 +28,7 @@ drop policy if exists "owner read only" on public.projects;
 create policy "owner read only"
   on public.projects for select
   to authenticated
-  using (auth.uid() = 'YOUR-USER-UUID');
+  using (auth.uid() = '00000000-0000-0000-0000-000000000000'::uuid);  -- TODO: your user id here
 
 -- No insert/update/delete policies for authenticated users on purpose:
 -- writes happen only with the service-role key (your assistant, server-side),

@@ -248,9 +248,10 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 
   <div class="steps">
     <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
-    <div class="step"><div class="n">2</div><div class="t"><b>Run <code>setup.sql</code></b> from the repo in the Supabase SQL editor. It creates the table, locks it down to you, and adds demo rows.</div></div>
-    <div class="step"><div class="n">3</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable "Allow new users to sign up", then Authentication → Users → Add user with your email.</div></div>
-    <div class="step"><div class="n">4</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is safe in the browser - row-level security is what guards your rows.</div></div>
+    <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
+    <div class="step"><div class="n">3</div><div class="t"><b>Run <code>setup.sql</code></b> from the repo in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
+    <div class="step"><div class="n">4</div><div class="t"><b>Point sign-in links here.</b> Authentication → URL Configuration → set Site URL to this app's address.</div></div>
+    <div class="step"><div class="n">5</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is safe in the browser - row-level security is what guards your rows.</div></div>
   </div>
 
   <label class="lab" for="cfg-url">Supabase project URL</label>
@@ -261,7 +262,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div id="setup-msg" class="msg"></div>
 
   <div class="steps" style="margin-top:26px">
-    <div class="step"><div class="n">5</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <code>WRITER.md</code> from the repo. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+    <div class="step"><div class="n">6</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <code>WRITER.md</code> from the repo. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
   </div>
 
   <div class="backrow"><a href="#" id="link-back-demo">Back to the demo</a></div>

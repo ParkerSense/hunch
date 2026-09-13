@@ -34,10 +34,11 @@ Built for use with [Instinct](https://instinct.com), a personal AI assistant you
 Ten minutes, $0, no build step. You need a free [Supabase](https://supabase.com) project and any place to put one static file (or just use the hosted build).
 
 1. **Create a Supabase project** (free) at [supabase.com](https://supabase.com).
-2. **Run [`setup.sql`](setup.sql)** in the Supabase SQL editor. It creates the table, locks it to you with row-level security, and seeds demo rows. Put your own user id in the policy where marked.
-3. **Add your sign-in user.** In Authentication settings, disable new sign-ups, then add your email as a user.
-4. **Connect the app.** Open the hosted build (or your own copy of `index.html` anywhere static), choose *Make it yours*, and paste your project URL + publishable anon key. They live only in your browser's local storage.
-5. **Wire up the writer.** Hand your assistant the service-role key and [`WRITER.md`](WRITER.md). It upserts one plain-English row per user-visible outcome as work starts, moves, waits, or completes.
+2. **Add your sign-in user.** In Authentication settings, disable new sign-ups, then add your email as a user. Copy the user's UID.
+3. **Run [`setup.sql`](setup.sql)** in the SQL editor: paste your UID on the marked line first, then run the whole file. It creates the table, locks it to you with row-level security, and seeds demo rows.
+4. **Point sign-in links at the app.** In Authentication → URL Configuration, set the Site URL to `https://hunch.surge.sh` (or your own domain if you self-host).
+5. **Connect the app.** Open the hosted build, choose *Make it yours*, and paste your project URL + publishable anon key. They live only in your browser's local storage.
+6. **Wire up the writer.** Hand your assistant the service-role key and [`WRITER.md`](WRITER.md). It upserts one plain-English row per user-visible outcome as work starts, moves, waits, or completes.
 
 That's it. The publishable key is safe to sit in a browser — row-level security is what guards your rows. The service-role key (full write access) never touches the app, the repo, or the browser.
 
