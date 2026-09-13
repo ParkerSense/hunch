@@ -531,10 +531,13 @@ document.getElementById('btn-connect').addEventListener('click',function(){
   test.from('projects').select('slug').limit(1).then(function(res){
     btn.disabled=false; btn.textContent='Test connection & save';
     if(res.error){
+      var em=res.error.message||'';
       msg.className='msg err';
-      msg.textContent= /does not exist|relation/i.test(res.error.message)
-        ? 'Connected, but the projects table is missing. Run setup.sql in the Supabase SQL editor first (step 2).'
-        : ('Connection failed: '+res.error.message);
+      msg.textContent= /does not exist|relation/i.test(em)
+        ? 'Connected, but the projects table is missing. Run setup.sql in the Supabase SQL editor first (step 3).'
+        : (/fetch|network|timeout/i.test(em)
+          ? 'Could not reach that project. Check the URL and that the project is not paused.'
+          : ('Connection failed: '+em));
       return;
     }
     setCfg(cfg);
