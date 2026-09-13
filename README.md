@@ -73,6 +73,8 @@ Cost to run for one person: **$0** on free plans. (Supabase free projects pause 
 - Postgres row-level security releases rows only to your user id — even holding the publishable key, nobody else can read them.
 - The service-role key stays server-side with the writer. Never in the page, the repo, or the browser.
 - The app is read-only: there is no write path from the browser at all.
+- Your sign-in session lives only in that browser's local storage. On a shared device, use the footer Sign out when you're done.
+- No analytics, no trackers, no third-party requests: fonts and the Supabase client are vendored in this repo. The only network calls the page makes are to your own Supabase project.
 - The hosted build at hunch.surge.sh is byte-identical to `index.html` in this repo; your connection settings never leave your browser. Self-host if you'd rather not trust a hosted copy.
 
 ## Why "Hunch"?
