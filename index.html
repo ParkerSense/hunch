@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>Projects</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#e6e8ee;
+  --accent:#4f46e5; --accent-soft:#eef0fe;
+  --green:#0f9d63; --green-soft:#e7f6ef;
+  --amber:#b45309; --amber-soft:#fdf1e3;
+  --slate-soft:#f1f3f7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding:0 18px calc(40px + env(safe-area-inset-bottom))}
+header.top{padding:calc(16px + env(safe-area-inset-top)) 0 6px;display:flex;align-items:baseline;justify-content:space-between}
+h1{font-size:26px;font-weight:800;letter-spacing:-0.02em}
+.sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+.refreshline{display:flex;align-items:center;justify-content:space-between;margin:8px 0 4px;min-height:26px}
+.updated{font-size:12px;color:var(--muted)}
+.updated.live::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;vertical-align:1px}
+.iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer}
+.group{margin-top:20px}
+.group h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--slate-soft);color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:10px;box-shadow:0 1px 2px rgba(15,23,42,.03)}
+.card .cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:inline-block;padding:3px 8px;border-radius:999px}
+.cat.travel{background:#e8f1fd;color:#1d4ed8}.cat.learning{background:#efeafd;color:#6d28d9}.cat.money{background:#e7f6ef;color:#0f9d63}.cat.product{background:#fdf1e3;color:#b45309}.cat.personal{background:#f1f3f7;color:#475569}
+.card h3{font-size:16.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px}
+.status{font-size:14px;line-height:1.45;color:var(--ink)}
+.meta{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:6px}
+.mrow{font-size:12.5px;line-height:1.4;color:var(--muted)}
+.mrow b{color:var(--ink);font-weight:600}
+.next{margin-top:10px;background:var(--accent-soft);border-radius:10px;padding:9px 11px;font-size:13px;line-height:1.4;color:#3730a3}
+.next b{font-weight:700}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:13.5px;background:transparent}
+/* sign in */
+.signin{max-width:400px;margin:0 auto;padding:calc(64px + env(safe-area-inset-top)) 24px 40px}
+.signin .logo{width:52px;height:52px;border-radius:14px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin-bottom:18px}
+.signin h1{font-size:24px;margin-bottom:6px}
+.signin p{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:20px}
+.field{width:100%;font-size:16px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px;outline:none}
+.field:focus{border-color:var(--accent)}
+.btn{width:100%;font-size:15.5px;font-weight:700;padding:14px;border:none;border-radius:12px;background:var(--ink);color:#fff;cursor:pointer}
+.btn:disabled{opacity:.5}
+.btn.sec{background:var(--card);color:var(--ink);border:1px solid var(--line);margin-top:8px}
+.msg{font-size:13.5px;line-height:1.5;margin-top:14px;padding:11px 13px;border-radius:10px;display:none}
+.msg.ok{display:block;background:var(--green-soft);color:#065f46}
+.msg.err{display:block;background:#fdecec;color:#b91c1c}
+.msg.info{display:block;background:var(--accent-soft);color:#3730a3}
+/* about */
+.about h2{font-size:17px;margin:22px 0 8px}
+.about p, .about li{font-size:14px;line-height:1.6;color:#334155}
+.about ul{padding-left:20px;margin-top:6px}
+.about .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:10px}
+.diagram{width:100%;height:auto;display:block;margin:10px 0}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.foot{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.foot a{color:var(--muted);font-size:13px;text-decoration:none;font-weight:600}
+.foot a:active{color:var(--ink)}
+.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+</style>
+</head>
+<body>
+
+<!-- SIGN IN -->
+<div id="signin" class="signin" style="display:none">
+  <div class="logo">P</div>
+  <h1>Projects</h1>
+  <p>A private, always-current view of what's in motion, what's waiting on you, and what just wrapped. Sign in with the email this was shared with.</p>
+  <div id="emailstep">
+    <input id="email" class="field" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
+    <button id="sendlink" class="btn">Email me a sign-in link</button>
+  </div>
+  <div id="codestep" style="display:none">
+    <button id="back" class="btn sec">Use a different email</button>
+  </div>
+  <div id="smsg" class="msg"></div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+<div class="wrap">
+  <div id="home">
+    <header class="top">
+      <div>
+        <h1>Projects</h1>
+        <div class="sub">What's in motion, in plain English.</div>
+      </div>
+    </header>
+    <div class="refreshline">
+      <span id="updated" class="updated">Loading…</span>
+      <button id="refresh" class="iconbtn">Refresh</button>
+    </div>
+    <div id="groups"></div>
+    <div class="foot">
+      <a href="#about">How this works</a>
+      <a href="#" id="signout">Sign out</a>
+    </div>
+  </div>
+
+  <div id="about" class="about" style="display:none">
+    <header class="top">
+      <div>
+        <h1>How this works</h1>
+        <div class="sub">The build sheet, in plain English.</div>
+      </div>
+    </header>
+
+    <h2>What you're looking at</h2>
+    <p>A small private web app that shows what your AI assistant is doing for you: active work, things waiting on your call, and recently finished work. Each card has the current status, the last meaningful update, and the next move.</p>
+
+    <h2>How it stays current</h2>
+    <svg class="diagram" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Update flow diagram">
+      <rect x="8" y="18" width="104" height="46" rx="10" fill="#0f172a"/>
+      <text x="60" y="37" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Assistant</text>
+      <text x="60" y="52" text-anchor="middle" fill="#94a3b8" font-size="9.5">does the work</text>
+      <path d="M112 41 H146" stroke="#94a3b8" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+      <rect x="148" y="18" width="104" height="46" rx="10" fill="#eef0fe" stroke="#c7cdf9"/>
+      <text x="200" y="37" text-anchor="middle" fill="#3730a3" font-size="12" font-weight="700">Project list</text>
+      <text x="200" y="52" text-anchor="middle" fill="#6d6ab8" font-size="9.5">Supabase database</text>
+      <path d="M252 41 H286" stroke="#94a3b8" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+      <rect x="288" y="18" width="64" height="46" rx="10" fill="#fff" stroke="#e6e8ee"/>
+      <text x="320" y="37" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">This app</text>
+      <text x="320" y="52" text-anchor="middle" fill="#64748b" font-size="9.5">read-only</text>
+      <text x="180" y="96" text-anchor="middle" fill="#64748b" font-size="10.5">When work starts, moves, or finishes, your assistant writes the change.</text>
+      <text x="180" y="112" text-anchor="middle" fill="#64748b" font-size="10.5">Your phone reads the latest list whenever you open or refresh.</text>
+      <text x="180" y="136" text-anchor="middle" fill="#94a3b8" font-size="10">Nothing you type here edits the work itself — it's a window, not a control panel.</text>
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#94a3b8" stroke-width="1.4"/></marker></defs>
+    </svg>
+    <p>Your assistant's own task list is the source of truth. As work is started, updated, or completed, the assistant writes a short plain-English entry into a small database behind this app. The app only reads it. If something looks stale, pull the page or tap Refresh.</p>
+
+    <h2>Who can see it</h2>
+    <ul>
+      <li>Only someone who can receive email at <b>your address</b> can sign in (a sign-in link is emailed, no password).</li>
+      <li>The database enforces this again on its side: it only hands rows to your signed-in identity (row-level security).</li>
+      <li>The app is not listed anywhere; only people you share the link and sign-in email with can reach it.</li>
+    </ul>
+
+    <h2>The pieces</h2>
+    <div class="box">
+      <ul>
+        <li><b>This page:</b> a static HTML/JS app hosted on <b>Surge</b>. It receives only the app files.</li>
+        <li><b>Sign-in + storage:</b> <b>Supabase</b> (a hosted Postgres database with email sign-in). It receives your email address for sign-in links, and stores the project list: titles, statuses, updates, and next moves.</li>
+        <li><b>Writing updates:</b> your assistant (or any script you run), using the private service key. The key is never in the app or the browser.</li>
+        <li><b>Source code:</b> this repository. Fork it and point it at your own Supabase project.</li>
+      </ul>
+    </div>
+
+    <h2>What it costs</h2>
+    <p>Nothing right now. Surge and Supabase both run on free plans that comfortably cover a single-user app (Supabase free: 500 MB database, 2 GB bandwidth/month; free projects pause after about a week of no activity and unpause on the next visit). No credit card is on file for any of it. If a provider ever charges, that needs your approval first.</p>
+
+    <h2>If you want it changed or gone</h2>
+    <p>Ask your assistant. The list can add sections (money, home, people), show history per project, or send a nudge when something starts waiting on you. The whole thing — app, database, repo — can also be exported or deleted on request.</p>
+
+    <div class="foot">
+      <a href="#home">← Back to projects</a>
+      <a href="#" id="signout2">Sign out</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="supabase.min.js"></script>
+<script>
+const SUPABASE_URL='https://YOUR-PROJECT-REF.supabase.co'; // your Supabase project URL
+const SUPABASE_KEY='YOUR-PUBLISHABLE-ANON-KEY'; // Supabase anon/publishable key (safe to expose; RLS protects the data)
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{flowType:'pkce'}});
+const $=id=>document.getElementById(id);
+let session=null, lastFetch=null, timer=null;
+
+function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function ago(ts){
+  const s=(Date.now()-new Date(ts).getTime())/1000;
+  if(s<60)return 'just now';
+  const m=Math.floor(s/60); if(m<60)return m+'m ago';
+  const h=Math.floor(m/60); if(h<24)return h+'h ago';
+  const d=Math.floor(h/24); if(d<7)return d+'d ago';
+  return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric'});
+}
+function smsg(kind,text){const e=$('smsg');e.className='msg '+kind;e.innerHTML=text;}
+
+async function sendLink(){
+  const email=$('email').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){smsg('err','Enter a valid email address.');$('email').classList.add('shake');setTimeout(()=>$('email').classList.remove('shake'),350);return;}
+  $('sendlink').disabled=true;
+  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
+  $('sendlink').disabled=false;
+  if(error){smsg('err',esc(error.message));return;}
+  smsg('ok','Sent. Open <b>'+esc(email)+'</b> on this device and tap the sign-in link. It brings you straight back here.');
+  $('codestep').style.display='block';$('emailstep').style.display='none';
+}
+
+
+const GROUPS=[
+  {key:'active', title:'In motion', empty:'Nothing active right now.'},
+  {key:'waiting', title:'Waiting on you', empty:'Nothing waiting on you.'},
+  {key:'done', title:'Recently completed', empty:'Nothing completed yet.'}
+];
+function card(p){
+  const cat=esc(p.category||'personal');
+  let h='<div class="card"><span class="cat '+cat.toLowerCase()+'">'+cat+'</span>';
+  h+='<h3>'+esc(p.title)+'</h3>';
+  h+='<div class="status">'+esc(p.status)+'</div>';
+  h+='<div class="meta"><div class="mrow"><b>Last update</b> · '+ago(p.last_update_at)+' — '+esc(p.last_update)+'</div></div>';
+  if(p.next_move) h+='<div class="next"><b>Next:</b> '+esc(p.next_move)+'</div>';
+  h+='</div>';
+  return h;
+}
+async function load(showSpinner){
+  if(!session)return;
+  if(showSpinner)$('updated').innerHTML='<span class="spin"></span> Refreshing…';
+  const {data,error}=await sb.from('projects').select('*').order('sort',{ascending:true}).order('last_update_at',{ascending:false});
+  if(error){$('updated').textContent='Could not refresh — try again';return;}
+  lastFetch=Date.now();
+  const by={active:[],waiting:[],done:[]};
+  (data||[]).forEach(p=>{(by[p.state]||by.active).push(p);});
+  let html='';
+  GROUPS.forEach(g=>{
+    const rows=by[g.key];
+    html+='<div class="group"><h2>'+g.title+' <span class="pill">'+rows.length+'</span></h2>';
+    html+= rows.length? rows.map(card).join('') : '<div class="empty">'+g.empty+'</div>';
+    html+='</div>';
+  });
+  $('groups').innerHTML=html;
+  $('updated').className='updated live';
+  $('updated').textContent='Updated '+ago(new Date(lastFetch).toISOString());
+}
+function route(){
+  const h=(location.hash||'#home').slice(1);
+  $('home').style.display = h==='about'?'none':'block';
+  $('about').style.display = h==='about'?'block':'none';
+  window.scrollTo(0,0);
+}
+async function boot(){
+  const {data:{session:s}}=await sb.auth.getSession();
+  session=s;
+  $('signin').style.display=session?'none':'block';
+  $('app').style.display=session?'block':'none';
+  if(session){route();load(true);}
+}
+sb.auth.onAuthStateChange((_e,s)=>{session=s;boot();});
+window.addEventListener('hashchange',route);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&session)load(false);});
+$('sendlink').onclick=sendLink;
+$('back').onclick=()=>{$('codestep').style.display='none';$('emailstep').style.display='block';$('smsg').className='msg';};
+$('refresh').onclick=()=>load(true);
+const doOut=async()=>{await sb.auth.signOut();location.hash='';boot();};
+$('signout').onclick=doOut;$('signout2').onclick=doOut;
+setInterval(()=>{if(session&&!document.hidden){load(false);}},60000);
+boot();
+</script>
+</body>
+</html>
