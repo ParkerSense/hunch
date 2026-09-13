@@ -39,9 +39,12 @@ lives. Host choice is your human's call (see the onboarding conversation).
   logs, analytics, screenshots, or any third-party message.
 - The fragment after `#` is never sent with web requests - the host sees
   only ciphertext and ordinary request metadata (IP, time, path).
-- Rotate by republishing (a fresh key every publish; old links die on the
-  spot). Revoke by deleting `snapshot.enc`. If your human says the link
-  leaked, republish immediately and hand them the new link.
+- Rotate by republishing (a fresh key every publish; old links die as soon
+  as the new file lands everywhere). Revoke by rotating first, then deleting
+  `snapshot.enc` - a deleted file can linger briefly in edge caches, and the
+  old key opens only the old ciphertext, so rotation is what cuts access. If
+  your human says the link leaked, republish immediately and hand them the
+  new link.
 
 ## The onboarding conversation
 
@@ -54,6 +57,9 @@ When your human says "set up Hunch," run it as a conversation, not a form:
    touching anything.
 2. Agree the host with them (their Cloudflare/Netlify/GitHub/S3 account, or
    a free one you create for them if they approve). Deploy `index.html`.
+   Shell updates are automatic: the page carries an `APP_VERSION` and
+   reloads itself (preserving the `#k` key) when the host serves a newer
+   one - bump it on every UI change you deploy.
 3. Publish the first real snapshot immediately, deploy `snapshot.enc`, and
    hand them the link. The payoff should be visible inside the same
    conversation.

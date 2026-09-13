@@ -54,7 +54,7 @@ Your Instinct needs any static host it can write to - Cloudflare Pages direct up
 3. **Deploy `snapshot.enc` alongside the page.** Same host, same directory.
 4. **Hand the owner the printed link.** It looks like `https://your-hunch-url/#k=...`. The part after `#` is the decryption key; browsers never send the fragment with any request, so the host only ever sees ciphertext.
 
-From then on, an update is one command: re-run the publisher with fresh state and redeploy the small file. **Rotation** is the same command - every publish uses a new key, so old links stop working the moment the new file lands. **Revocation** is deleting `snapshot.enc`.
+From then on, an update is one command: re-run the publisher with fresh state and redeploy the small file. **Rotation** is the same command - every publish uses a new key, so old links stop working the moment the new file lands everywhere. **Revocation** is rotating the key, then deleting `snapshot.enc` - a deleted file can linger briefly in host edge caches, so the rotation is what cuts off old links at once.
 
 > **The link is the password.** Anyone holding the full link can read the dashboard until the key is rotated. There is no per-reader sign-in and no audit log in this mode. Keep the link out of screenshots, tickets, shared notes, and logs; if it leaks, one republish kills it. If you need named readers or an audit trail, use the Supabase backend below.
 
@@ -100,7 +100,7 @@ Cost to run for one person: **$0** on free plans.
 **Default: encrypted snapshot.**
 
 - The host stores and serves only ciphertext. The decryption key lives after the `#` in your link, and browsers never send that fragment with any request.
-- The link is the password: anyone holding it can read the dashboard until rotation. No per-reader auth, no audit log. Rotation is one republish; full revocation is deleting one file.
+- The link is the password: anyone holding it can read the dashboard until rotation. No per-reader auth, no audit log. Rotation is one republish; full revocation is rotating the key, then deleting the old file (deleted ciphertext can linger briefly at the edge, so rotate first).
 - Fresh random key on every publish - there is nothing to manage, and nothing to forget to rotate.
 - Lost your link? Ask your Instinct to republish; it holds the state, not your old key, and the new link replaces the old one.
 - Export is the snapshot JSON itself; deletion is removing one file.

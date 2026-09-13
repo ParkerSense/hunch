@@ -34,8 +34,9 @@ The command prints the dashboard link exactly once. That link is the only
 key: deliver it to your human in your private channel with them, and never
 write it to the repo, logs, tickets, notes, or screenshots. Every publish
 mints a fresh AES-256-GCM key, so publishing again is also how you rotate:
-the moment the new `snapshot.enc` lands, old links stop working. Revoking
-everything is deleting the file.
+the moment the new `snapshot.enc` lands everywhere, old links stop working.
+Revoking everything is rotating first, then deleting the file - a deleted
+file can linger briefly in edge caches, and rotation is what cuts access.
 
 Fields: slug (stable id), title, category (travel | learning | money |
 product | personal | health | home), state (active | waiting | done),

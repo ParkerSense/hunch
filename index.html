@@ -175,6 +175,25 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 .about a:hover{text-decoration:underline}
 .diagram{width:100%;height:auto;display:block;margin:14px 0 4px}
 
+/* settings */
+.setblock{margin-top:22px}
+.setblock h3{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px}
+.setblock p{font-size:14px;line-height:1.6;color:var(--muted)}
+.setblock p b{color:var(--ink)}
+.setblock.links{display:flex;gap:18px;margin-top:26px}
+.setblock.links a{color:var(--muted);font-size:13px;text-decoration:none}
+.setblock.links a:hover{color:var(--link);text-decoration:underline}
+.adv{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);display:flex;gap:16px;justify-content:center;align-items:baseline;flex-wrap:wrap}
+.linkbtn{border:0;background:none;color:var(--faint);font:inherit;font-size:13px;cursor:pointer;padding:6px 2px}
+.linkbtn:hover{color:var(--link);text-decoration:underline}
+.linkbtn.danger:hover{color:var(--err)}
+.warnbox{margin-top:16px;background:var(--err-soft);border:1px solid #eccaca;padding:14px 15px}
+.warnbox p{font-size:13.5px;line-height:1.6;color:var(--ink)}
+.warnrow{display:flex;gap:10px;margin-top:12px}
+.warnrow .btn{margin-top:0}
+.btn.danger{background:var(--err)}
+.btn.danger:hover{background:#991b1b}
+
 /* skeleton + toast + misc */
 .sk{height:96px;margin-bottom:4px;border-bottom:1px solid var(--line);background:linear-gradient(100deg, var(--panel) 40%, #f1efeab3 50%, var(--panel) 60%);background-size:200% 100%;animation:sh 1.3s infinite}
 @keyframes sh{to{background-position:-200% 0}}
@@ -284,7 +303,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 
   <div id="setup-supabase" class="hidden">
     <div class="pathhead"><h2>Optional Supabase setup</h2><button id="btn-back-choice" type="button">Back to choices</button></div>
-    <p class="lede">This path adds email sign-in and per-reader access control. It requires a Supabase account, a project, and manual setup. Encrypted-view users do not need any of this.</p>
+    <p class="lede">This path adds email sign-in and per-reader access control. It requires a Supabase account, a project, and manual setup - and it is newer and less tested than the encrypted view. Encrypted-view users do not need any of this.</p>
     <div class="steps">
       <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
       <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
@@ -304,6 +323,16 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     </div>
     <div class="backrow"><a href="#" id="link-disconnect" style="color:#b91c1c">Disconnect this backend</a></div>
   </div>
+</div>
+</div>
+
+<!-- ============ SETTINGS ============ -->
+<div id="view-settings" class="page">
+<div class="solo" style="max-width:480px">
+  <button class="mark" type="button" data-home aria-label="Hunch home"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></button>
+  <h1 id="settings-title">Settings</h1>
+  <div id="settings-body"></div>
+  <div class="backrow"><a href="#" id="link-settings-home">Back to dashboard</a></div>
 </div>
 </div>
 
@@ -348,7 +377,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div class="box">
     <ul style="padding-left:19px">
       <li><b>Default: encrypted snapshot.</b> The host stores and serves only ciphertext. The decryption key lives after the <code>#</code> in your link, and browsers never send that fragment with any request.</li>
-      <li><b>The link is the password.</b> Anyone with the full link can read your dashboard until the key is rotated - there is no per-reader sign-in and no audit log in this mode. Rotation is one republish; revoking everything is deleting one file. Keep the link out of screenshots, tickets, and shared notes.</li>
+      <li><b>The link is the password.</b> Anyone with the full link can read your dashboard until the key is rotated - there is no per-reader sign-in and no audit log in this mode. Rotation is one republish and takes effect at once; full revocation is rotating the key, then deleting the old file - deleted ciphertext can linger briefly at the host's edge, which is why rotation comes first. Keep the link out of screenshots, tickets, and shared notes.</li>
       <li><b>Optional: Supabase backend.</b> Sign-in is a magic link to your email with new sign-ups disabled. Postgres row-level security releases rows only to your user id, even with the publishable key. The service-role key (full write access) stays with the writer - never in this page, the repo, or the browser. Tradeoff: your data sits as readable text inside a hosted database you manage.</li>
       <li><b>Either way:</b> this page cannot phone home - the content-security policy allows connections only to this site (plus Supabase, only if you configure it). No analytics, no third-party requests, no trackers.</li>
     </ul>
@@ -367,6 +396,9 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 'use strict';
 
 /* ================= config & state ================= */
+// Shell version: bump on every UI change. The app checks the served page and
+// reloads itself (preserving the #k key) when the host has a newer one.
+var APP_VERSION='2026.09.13.2';
 var CFG_KEY='hunch.cfg';
 var VISIT_KEY='hunch.lastVisit';
 var lastVisit=0;
@@ -420,7 +452,7 @@ function rel(ts){
   return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric'});
 }
 function toast(t){ var c=document.getElementById('toasts');var d=document.createElement('div');d.className='toast';d.textContent=t;c.appendChild(d);setTimeout(function(){d.style.opacity='0';d.style.transition='opacity .3s';setTimeout(function(){d.remove();},320);},3600); }
-function show(id){ document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');}); document.getElementById(id).classList.add('on'); window.scrollTo(0,0); }
+function show(id){ document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');}); document.getElementById(id).classList.add('on'); window.scrollTo(0,0); var h=document.querySelector('#'+id+' h1'); if(h){ if(!h.hasAttribute('tabindex')) h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } }
 
 /* ================= rendering ================= */
 var GROUPS=[
@@ -606,6 +638,110 @@ function goHome(){
   enterDemo();
 }
 
+/* ================= shell auto-update ================= */
+var lastShellCheck=0, shellChecking=false;
+function checkShellUpdate(force){
+  if(shellChecking) return;
+  var now=Date.now();
+  if(!force && now-lastShellCheck<120000) return;
+  lastShellCheck=now; shellChecking=true;
+  fetch('index.html',{cache:'no-store'}).then(function(r){
+    if(!r.ok) return null; return r.text();
+  }).then(function(html){
+    shellChecking=false;
+    if(!html) return;
+    var m=html.match(/APP_VERSION='([^']+)'/);
+    if(!m || m[1]===APP_VERSION) return;
+    try{ if(sessionStorage.getItem('hunch.updating')===m[1]) return; sessionStorage.setItem('hunch.updating',m[1]); }catch(e){}
+    // a fresh query string bypasses any stale cached shell; the #k key rides along untouched
+    location.replace(location.pathname+'?v='+encodeURIComponent(m[1])+location.hash);
+  }).catch(function(){ shellChecking=false; });
+}
+
+/* ================= settings ================= */
+function disconnectLive(){
+  if(state.sb) state.sb.auth.signOut();
+  clearCfg();
+  document.getElementById('cfg-url').value='';
+  document.getElementById('cfg-key').value='';
+}
+function settingsSnapshotHTML(){
+  var pub=state.publishedAt||state.lastFetch;
+  return ''
+  +'<div class="choice recommended"><div class="eyebrow">Connected</div>'
+  +'<h2>Encrypted view</h2>'
+  +'<p>'+(pub?('Snapshot published '+rel(pub)+' · read-only.'):'Connected · read-only.')+' Your Instinct publishes updates; this page only reads them.</p></div>'
+  +'<div class="setblock"><h3>Your private link</h3>'
+  +'<p>The full bookmark link is the key to this dashboard. Anyone holding it can read your page, so keep it in bookmarks or a password manager - out of screenshots, messages, and shared notes.</p></div>'
+  +'<div class="setblock"><h3>Rotate access</h3>'
+  +'<p>If the link ever leaks, ask your Instinct to rotate it. Rotation republishes your dashboard with a fresh key and removes the old snapshot, so the old link stops opening your page.</p></div>'
+  +'<div class="setblock links"><a href="#" id="set-about">How Hunch works</a><a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">GitHub</a></div>'
+  +'<div class="adv"><button id="btn-change-backend" class="linkbtn" type="button">Change backend</button></div>'
+  +'<div id="confirm-backend" class="warnbox hidden">'
+  +'<p><b>Change backend?</b> This disconnects the encrypted view on this device and returns to first-time setup. Your published snapshot stays on the host until your Instinct deletes it - nothing is removed here.</p>'
+  +'<div class="warnrow"><button id="btn-confirm-backend" class="btn danger" type="button">Continue to backend choices</button><button id="btn-cancel-backend" class="btn sec" type="button">Cancel</button></div>'
+  +'</div>';
+}
+function settingsLiveHTML(){
+  var cfg=getCfg()||{}; var host=''; try{ host=new URL(cfg.url||'').host; }catch(e){ host=cfg.url||''; }
+  var email=state.session && state.session.user && state.session.user.email;
+  var bits=[];
+  if(host) bits.push(esc(host));
+  if(email) bits.push('signed in as '+esc(email));
+  if(state.lastFetch) bits.push('updated '+rel(state.lastFetch));
+  return ''
+  +'<div class="choice recommended"><div class="eyebrow">Connected</div>'
+  +'<h2>Supabase with email sign-in</h2>'
+  +'<p>'+(bits.length?bits.join(' · '):'Connection saved in this browser.')+'</p></div>'
+  +'<div class="setblock links"><a href="#" id="set-about">How Hunch works</a><a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">GitHub</a></div>'
+  +'<div class="setblock"><button id="btn-settings-signout" class="btn sec" type="button">Sign out</button></div>'
+  +'<div class="adv">'
+  +'<button id="btn-change-backend" class="linkbtn" type="button">Change backend</button>'
+  +'<button id="btn-disconnect" class="linkbtn danger" type="button">Disconnect this backend</button>'
+  +'</div>'
+  +'<div id="confirm-backend" class="warnbox hidden">'
+  +'<p><b>Change backend?</b> This removes the Supabase connection saved in this browser and returns to first-time setup. Your Supabase project and its data are untouched.</p>'
+  +'<div class="warnrow"><button id="btn-confirm-backend" class="btn danger" type="button">Continue to backend choices</button><button id="btn-cancel-backend" class="btn sec" type="button">Cancel</button></div>'
+  +'</div>'
+  +'<div id="confirm-disconnect" class="warnbox hidden">'
+  +'<p><b>Disconnect this backend?</b> The saved connection is removed from this browser and you return to the demo. Your Supabase project and its data are untouched.</p>'
+  +'<div class="warnrow"><button id="btn-confirm-disconnect" class="btn danger" type="button">Disconnect</button><button id="btn-cancel-disconnect" class="btn sec" type="button">Cancel</button></div>'
+  +'</div>';
+}
+function showSettings(){
+  var body=document.getElementById('settings-body');
+  body.innerHTML = state.mode==='snapshot' ? settingsSnapshotHTML() : settingsLiveHTML();
+  show('view-settings');
+  var on=function(id,fn){ var el=document.getElementById(id); if(el) el.addEventListener('click',fn); };
+  on('set-about',function(e){ e.preventDefault(); show('view-about'); });
+  on('btn-change-backend',function(){ document.getElementById('confirm-backend').classList.remove('hidden'); });
+  on('btn-cancel-backend',function(){ document.getElementById('confirm-backend').classList.add('hidden'); });
+  on('btn-confirm-backend',function(){
+    document.getElementById('confirm-backend').classList.add('hidden');
+    if(state.mode==='snapshot'){
+      try{ history.replaceState(null,'',location.pathname); }catch(err){}
+      state.snapKey=null;
+      showSetup(false);
+      return;
+    }
+    disconnectLive();
+    document.getElementById('link-disconnect').style.display='none';
+    showSetup(false);
+  });
+  on('btn-settings-signout',function(){
+    if(state.sb) state.sb.auth.signOut();
+    state.rows=[]; state.lastFetch=null; render();
+    show('view-signin'); toast('Signed out.');
+  });
+  on('btn-disconnect',function(){ document.getElementById('confirm-disconnect').classList.remove('hidden'); });
+  on('btn-cancel-disconnect',function(){ document.getElementById('confirm-disconnect').classList.add('hidden'); });
+  on('btn-confirm-disconnect',function(){
+    disconnectLive();
+    enterDemo();
+    toast('Disconnected. You are back on the demo.');
+  });
+}
+
 /* ================= events ================= */
 document.getElementById('btn-refresh').addEventListener('click',function(){
   var b=this; b.classList.add('spinning');
@@ -614,19 +750,18 @@ document.getElementById('btn-refresh').addEventListener('click',function(){
   else setTimeout(function(){b.classList.remove('spinning');},600);
 });
 document.getElementById('btn-settings').addEventListener('click',function(){
-  document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
-  if(state.mode==='demo') showSetup(false);
-  else {
-    var cfg=getCfg();
-    document.getElementById('cfg-url').value=cfg?cfg.url:'';
-    document.getElementById('cfg-key').value=cfg?cfg.key:'';
-    showSetup(state.mode==='live');
+  if(state.mode==='demo'){
+    document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
+    showSetup(false);
+    return;
   }
+  showSettings();
 });
 document.getElementById('btn-makemine').addEventListener('click',function(){
   document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
   showSetup(false);
 });
+document.getElementById('link-settings-home').addEventListener('click',function(e){ e.preventDefault(); goHome(); });
 document.getElementById('link-about').addEventListener('click',function(e){ e.preventDefault(); show('view-about'); });
 document.getElementById('link-home').addEventListener('click',function(e){ e.preventDefault(); goHome(); });
 document.querySelectorAll('[data-home]').forEach(function(el){ el.addEventListener('click',goHome); });
@@ -749,12 +884,15 @@ else if(cfg && cfg.url && cfg.key){
   }).catch(function(){ enterDemo(); });
 }
 
-// refresh cycle: data every 60s, relative times every 30s
+// refresh cycle: data every 60s, relative times every 30s, shell update check alongside
 setInterval(function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); },60000);
+setInterval(function(){ if(!document.hidden) checkShellUpdate(false); },60000);
+checkShellUpdate(true);
 setInterval(function(){ if(!document.hidden && !state.loading) render(); },30000);
 document.addEventListener('visibilitychange',function(){
-  if(document.hidden) markVisit();
-  else if(state.mode!=='demo') fetchRows();
+  if(document.hidden){ markVisit(); return; }
+  checkShellUpdate(false);
+  if(state.mode!=='demo') fetchRows();
 });
 window.addEventListener('pagehide',markVisit);
 // a new #k= link opened while already on the page is a same-document
