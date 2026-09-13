@@ -556,7 +556,8 @@ document.getElementById('btn-connect').addEventListener('click',function(){
   var btn=this; btn.disabled=true; btn.textContent='Testing…'; msg.className='msg info'; msg.textContent='Checking the connection…';
   var cfg={url:url.replace(/\/+$/,''), key:key};
   var test=makeClient(cfg);
-  test.from('projects').select('slug').limit(1).then(function(res){
+  var hang=new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },12000); });
+  Promise.race([test.from('projects').select('slug').limit(1),hang]).then(function(res){
     btn.disabled=false; btn.textContent='Test connection & save';
     if(res.error){
       var em=res.error.message||'';
