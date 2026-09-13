@@ -4,10 +4,11 @@
 
 # Hunch
 
-**What is your AI assistant actually doing right now?**
+**The unofficial open-source dashboard for [Instinct](https://instinct.com).**
 
-One private page that answers it in ten seconds:
-what's in motion, what's waiting on you, and what just wrapped.
+What is your AI assistant actually doing right now? One private page
+answers it in ten seconds: what's in motion, what's waiting on you,
+and what just wrapped.
 
 [Live demo](https://hunch.surge.sh) · [Setup](#setup) · [How it works](#how-it-works) · [Security](#security-model)
 
@@ -23,7 +24,7 @@ what's in motion, what's waiting on you, and what just wrapped.
 
 Personal AI assistants do real work in the background, but the work lives inside a chat thread. Finding out what's active, what's blocked on you, and what's done means rereading the conversation. Hunch is a window onto that state: the assistant writes short plain-English rows into a tiny database as work happens, and this page renders them. It's a window, not a control panel — nothing in the app edits the work itself.
 
-Built for use with [Instinct](https://instinct.com), a personal AI assistant you text or call. **Hunch is unofficial — not affiliated with or endorsed by Instinct.** The name is a synonym, not a claim.
+[Instinct](https://instinct.com) is a personal AI assistant you text or call — and it has no project view, because its whole pitch is "no new interfaces." Hunch fills that gap from the outside. **It is unofficial: made by a user, not made, endorsed, or supported by Instinct.** The name is a synonym, not a claim.
 
 ## The demo
 
@@ -72,7 +73,7 @@ Cost to run for one person: **$0** on free plans. (Supabase free projects pause 
 
 ## Why "Hunch"?
 
-It's a synonym for instinct — and an honest label for an unofficial companion. As of September 2026, Instinct's own site describes the product as having "no new interfaces," and we found no public project/status view for personal AI assistants. The closest public work is observability tooling for *coding* agents (agent kanban boards, sub-agent dashboards), which is developer tooling, not a personal-life view. If you know of one, open an issue.
+Because "hunch" is a synonym for instinct — and that's exactly what this is: instinct, unofficially. As of September 2026, Instinct's own site describes the product as having "no new interfaces," and we found no public project/status view for personal AI assistants. The closest public work is observability tooling for *coding* agents (agent kanban boards, sub-agent dashboards), which is developer tooling, not a personal-life view. If you know of one, open an issue.
 
 ## Files
 

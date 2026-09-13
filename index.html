@@ -4,18 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08090d">
-<title>Hunch - what is your AI assistant actually doing?</title>
-<meta name="description" content="Hunch is a private, always-current window into what your personal AI assistant is working on: what's in motion, what's waiting on you, and what just wrapped. Built for Instinct. Unofficial.">
+<title>Hunch - the unofficial dashboard for Instinct</title>
+<meta name="description" content="Hunch is the unofficial open-source dashboard for Instinct: a private, always-current page showing what your assistant is working on - in motion, waiting on you, and done. Not affiliated with or endorsed by Instinct.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hunch">
-<meta property="og:description" content="What is your AI assistant actually doing? One glance: in motion, waiting on you, done.">
+<meta property="og:description" content="The unofficial open-source dashboard for Instinct. What is your assistant actually doing? One glance: in motion, waiting on you, done.">
 <meta property="og:image" content="https://hunch.surge.sh/assets/og.png">
 <meta property="og:url" content="https://hunch.surge.sh">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hunch">
-<meta name="twitter:description" content="What is your AI assistant actually doing? One glance: in motion, waiting on you, done.">
+<meta name="twitter:description" content="The unofficial open-source dashboard for Instinct. What is your assistant actually doing? One glance: in motion, waiting on you, done.">
 <meta name="twitter:image" content="https://hunch.surge.sh/assets/og.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308090d'/%3E%3Cg fill='none' stroke='%238a7dff' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M20 40a12 12 0 0 1 24 0'/%3E%3Cpath d='M13 40a19 19 0 0 1 38 0' opacity='.55'/%3E%3Cpath d='M27 40a5 5 0 0 1 10 0'/%3E%3C/g%3E%3Ccircle cx='32' cy='44' r='4' fill='%238a7dff'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet">
@@ -134,7 +135,7 @@ header.top{padding:calc(20px + env(safe-area-inset-top)) 0 4px;display:flex;alig
 .solo .mark svg{width:32px;height:32px}
 .solo h1{font-size:25px;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px}
 .solo .lede{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:24px}
-.field{width:100%;font-size:15.5px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);margin-bottom:10px;outline:none;font-family:inherit;transition:border-color .15s}
+.field{width:100%;font-size:16px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);margin-bottom:10px;outline:none;font-family:inherit;transition:border-color .15s}
 .field:focus{border-color:var(--accent)}
 .field::placeholder{color:#4a4f5e}
 label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:14px 0 6px}
@@ -175,6 +176,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 #toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom));z-index:50;display:flex;flex-direction:column;gap:8px;width:min(420px,90vw)}
 .toast{background:#1a1d29;border:1px solid var(--line2);border-radius:12px;padding:12px 15px;font-size:13.5px;line-height:1.45;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:up .25s}
 @keyframes up{from{opacity:0;transform:translateY(8px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .hidden{display:none!important}
 </style>
 </head>
@@ -189,7 +191,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
       <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#12141c" stroke="rgba(255,255,255,.09)"/><g fill="none" stroke="#8a7dff" stroke-width="4" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4" fill="#8a7dff"/></svg>
       <div>
         <div class="name">Hunch</div>
-        <div class="tag">what your assistant is up to</div>
+        <div class="tag">unofficial &middot; for Instinct</div>
       </div>
     </div>
     <div class="actions">
@@ -220,8 +222,9 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     <div class="lhs">
       <a href="#" id="link-about">How it works</a>
       <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">GitHub</a>
+      <a href="#" id="link-signout" class="hidden">Sign out</a>
     </div>
-    <div class="sig" id="footsig">unofficial · built for Instinct</div>
+    <div class="sig" id="footsig">the unofficial dashboard for Instinct</div>
   </div>
 </div>
 </div>
@@ -249,7 +252,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div class="steps">
     <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
     <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
-    <div class="step"><div class="n">3</div><div class="t"><b>Run <code>setup.sql</code></b> from the repo in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
+    <div class="step"><div class="n">3</div><div class="t"><b>Run <a href="https://github.com/ParkerSense/hunch/blob/main/setup.sql" target="_blank" rel="noopener" style="color:#a99bff"><code>setup.sql</code></a></b> in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
     <div class="step"><div class="n">4</div><div class="t"><b>Point sign-in links here.</b> Authentication → URL Configuration → set Site URL to this app's address.</div></div>
     <div class="step"><div class="n">5</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is safe in the browser - row-level security is what guards your rows.</div></div>
   </div>
@@ -262,10 +265,10 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div id="setup-msg" class="msg"></div>
 
   <div class="steps" style="margin-top:26px">
-    <div class="step"><div class="n">6</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <code>WRITER.md</code> from the repo. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+    <div class="step"><div class="n">6</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener" style="color:#a99bff"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
   </div>
 
-  <div class="backrow"><a href="#" id="link-back-demo">Back to the demo</a></div>
+  <div class="backrow"><a href="#" id="link-back-demo">Back</a> &nbsp;·&nbsp; <a href="#" id="link-disconnect" style="color:#b91c1c">Disconnect this backend</a></div>
 </div>
 </div>
 
@@ -313,8 +316,8 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     </ul>
   </div>
 
-  <h2>What it is not</h2>
-  <p>Hunch is a window, not a control panel. Nothing here edits the work itself. It is also <b>unofficial</b>: built by a user, for use with <a href="https://instinct.com" target="_blank" rel="noopener">Instinct</a>, and not affiliated with or endorsed by Instinct. The name is a synonym, not a claim.</p>
+  <h2>What it is - and is not</h2>
+  <p>Hunch is the unofficial open-source dashboard for <a href="https://instinct.com" target="_blank" rel="noopener">Instinct</a>. Unofficial means exactly that: made by a user, not made, endorsed, or supported by Instinct itself. It is also a window, not a control panel - nothing here edits the work itself.</p>
 
   <div class="backrow" style="margin-top:34px"><a href="#" id="link-home">Back to your projects</a></div>
 </div>
@@ -404,6 +407,7 @@ function cardHTML(p){
   return html;
 }
 function render(){
+  state.loading=false;
   document.getElementById('skeletons').style.display='none';
   var host=document.getElementById('groups'); host.innerHTML='';
   var counts={active:0,waiting:0,done:0};
@@ -437,8 +441,9 @@ function render(){
   if(sa) sa.addEventListener('click',function(){ state.showAllDone=true; render(); });
 
   var up=document.getElementById('updated');
-  if(state.mode==='demo'){ up.textContent='Demo'; }
-  else if(state.lastFetch){ up.textContent='Live · '+rel(state.lastFetch); }
+  var dot=document.querySelector('#livepill .livedot');
+  if(state.mode==='demo'){ up.textContent='Demo'; dot.style.background='var(--accent)'; dot.style.animation='none'; }
+  else if(state.lastFetch){ up.textContent='Live · '+rel(state.lastFetch); dot.style.background='var(--green)'; dot.style.animation=''; }
 }
 
 /* ================= data ================= */
@@ -456,6 +461,7 @@ function fetchRows(){
 /* ================= auth & connection ================= */
 function enterDemo(){
   state.mode='demo'; state.sb=null; state.session=null; state.rows=demoRows();
+  document.getElementById('link-signout').classList.add('hidden');
   document.getElementById('demobar').classList.remove('hidden');
   document.getElementById('livepill').style.display='flex';
   show('view-home'); render();
@@ -465,11 +471,15 @@ function makeClient(cfg){
 }
 function enterSupabase(cfg){
   state.mode='live'; state.sb=makeClient(cfg);
+  document.getElementById('link-signout').classList.remove('hidden');
   document.getElementById('demobar').classList.add('hidden');
   state.sb.auth.getSession().then(function(r){
     state.session=r.data&&r.data.session;
     if(state.session){ show('view-home'); document.getElementById('skeletons').style.display='block'; fetchRows(); }
     else show('view-signin');
+  }).catch(function(){
+    toast('Could not reach your backend. Check the connection settings.');
+    show('view-setup');
   });
   state.sb.auth.onAuthStateChange(function(ev,sess){
     state.session=sess;
@@ -484,6 +494,7 @@ document.getElementById('btn-refresh').addEventListener('click',function(){
   fetchRows().finally? fetchRows().finally(function(){setTimeout(function(){b.classList.remove('spinning');},400);}) : setTimeout(function(){b.classList.remove('spinning');},600);
 });
 document.getElementById('btn-settings').addEventListener('click',function(){
+  document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
   if(state.mode==='demo') show('view-setup');
   else {
     var cfg=getCfg();
@@ -493,13 +504,30 @@ document.getElementById('btn-settings').addEventListener('click',function(){
     show('view-setup');
   }
 });
-document.getElementById('btn-makemine').addEventListener('click',function(){ show('view-setup'); });
+document.getElementById('btn-makemine').addEventListener('click',function(){
+  document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
+  show('view-setup');
+});
 document.getElementById('link-about').addEventListener('click',function(e){ e.preventDefault(); show('view-about'); });
 document.getElementById('link-home').addEventListener('click',function(e){ e.preventDefault(); show('view-home'); render(); });
 document.getElementById('link-back-demo').addEventListener('click',function(e){
   e.preventDefault();
-  if(state.mode==='demo'){ show('view-home'); render(); }
-  else { show('view-home'); render(); }
+  show('view-home'); render();
+});
+document.getElementById('link-disconnect').addEventListener('click',function(e){
+  e.preventDefault();
+  if(state.sb) state.sb.auth.signOut();
+  clearCfg();
+  document.getElementById('cfg-url').value='';
+  document.getElementById('cfg-key').value='';
+  document.getElementById('setup-title').textContent='Make Hunch yours';
+  enterDemo();
+  toast('Disconnected. You are back on the demo.');
+});
+document.getElementById('link-signout').addEventListener('click',function(e){
+  e.preventDefault();
+  if(state.sb) state.sb.auth.signOut();
+  toast('Signed out.');
 });
 document.getElementById('link-back-setup').addEventListener('click',function(e){
   e.preventDefault();
@@ -516,7 +544,7 @@ document.getElementById('btn-sendlink').addEventListener('click',function(){
   state.sb.auth.signInWithOtp({email:email, options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
     btn.disabled=false; btn.textContent='Email me a sign-in link';
     if(r.error){ msg.className='msg err'; msg.textContent=r.error.message; }
-    else { msg.className='msg ok'; msg.textContent='Check your email for a sign-in link. It opens right back here.'; }
+    else { msg.className='msg ok'; msg.textContent='Check your email for a sign-in link. Open it on this device - it comes right back here.'; }
   });
 });
 document.getElementById('btn-connect').addEventListener('click',function(){
@@ -550,6 +578,11 @@ document.getElementById('btn-connect').addEventListener('click',function(){
 });
 
 /* ================= boot ================= */
+(function(){
+  var m=location.hash.match(/error_description=([^&]+)/);
+  if(m){ setTimeout(function(){ toast(decodeURIComponent(m[1]).replace(/\+/g,' ')); },400);
+    history.replaceState(null,'',location.pathname); }
+})();
 var cfg=getCfg();
 if(cfg && cfg.url && cfg.key) enterSupabase(cfg); else enterDemo();
 
