@@ -31,6 +31,8 @@ order within a group).
 - Plain language only. No internal task ids, tool names, prompts, or runtime mechanics.
 - One row per user-visible outcome, not per internal task.
 - "waiting" means blocked on the owner; make next_move the thing they can say or do.
+- When a row moves to waiting, tell the owner in chat at the same time - the page is pull, the chat is push.
+- Generalize or omit sensitive work entirely. The page is only as private as the rows you choose to write.
 - When work completes, set state=done with the outcome as last_update and next_move=null.
 - Remove rows that no longer matter with DELETE on ?slug=eq.<slug>.
 - Keep "done" fresh: delete done rows after about two weeks, or sooner if more than ten pile up. The group is a fresh-wins list, not an archive.

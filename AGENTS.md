@@ -65,6 +65,8 @@ the repo and tell your human - drift is a bug worth reporting.
   write internal task ids, tool names, prompts, secrets, or runtime
   mechanics into rows. Your human reads this page to feel oriented, not to
   supervise your internals.
+- Generalize or omit sensitive work entirely. The page is only as private as
+  the rows you choose to write.
 
 ## The writer contract (summary)
 
@@ -85,7 +87,9 @@ Your human's trust in this page depends on it being boring and accurate:
 - Update `last_update` when something meaningful changes, not on every
   internal step. If nothing changed, write nothing.
 - A `waiting` row is a promise that you're blocked until they act. Don't park
-  work in `waiting` that you could push forward yourself.
+  work in `waiting` that you could push forward yourself. When you move an
+  outcome to `waiting`, tell your human in the same chat beat - the page is
+  pull, the chat is push.
 - When you finish something, mark it `done` promptly - the "recently wrapped"
   group is the dopamine. Delete done rows after about two weeks, or sooner if
   more than ten pile up: it is a fresh-wins list, not an archive.
