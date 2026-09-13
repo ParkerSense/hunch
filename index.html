@@ -77,7 +77,7 @@ header.top{padding:calc(22px + env(safe-area-inset-top)) 0 14px;display:flex;ali
 .dot.a{background:var(--ink)} .dot.w{background:var(--amber)} .dot.d{background:var(--green)}
 
 /* ---------- cards ---------- */
-.card{padding:15px 2px;border-bottom:1px solid var(--line)}
+.card{padding:15px 2px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
 .card.st-done{opacity:.62}
 .card .topline{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap}
 .cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
@@ -211,7 +211,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
   <h1>Sign in to Hunch</h1>
   <p class="lede">A private, always-current view of what's in motion, what's waiting on you, and what just wrapped. Sign in with the email this dashboard belongs to.</p>
-  <input id="email" class="field" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
+  <input id="email" class="field" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Your email address">
   <button id="btn-sendlink" class="btn">Email me a sign-in link</button>
   <div id="signin-msg" class="msg"></div>
   <div class="backrow"><a href="#" id="link-back-setup">Change connection settings</a></div>
@@ -228,7 +228,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div class="steps">
     <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
     <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
-    <div class="step"><div class="n">3</div><div class="t"><b>Run <a href="https://github.com/ParkerSense/hunch/blob/main/setup.sql" target="_blank" rel="noopener" style="color:#a99bff"><code>setup.sql</code></a></b> in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
+    <div class="step"><div class="n">3</div><div class="t"><b>Run <a href="https://github.com/ParkerSense/hunch/blob/main/setup.sql" target="_blank" rel="noopener"><code>setup.sql</code></a></b> in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
     <div class="step"><div class="n">4</div><div class="t"><b>Point sign-in links here.</b> Authentication → URL Configuration → set Site URL to this app's address.</div></div>
     <div class="step"><div class="n">5</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is safe in the browser - row-level security is what guards your rows.</div></div>
   </div>
@@ -241,7 +241,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div id="setup-msg" class="msg"></div>
 
   <div class="steps" style="margin-top:26px">
-    <div class="step"><div class="n">6</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener" style="color:#a99bff"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+    <div class="step"><div class="n">6</div><div class="t"><b>Hand your assistant the keys.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
   </div>
 
   <div class="backrow"><a href="#" id="link-back-demo">Back</a> &nbsp;·&nbsp; <a href="#" id="link-disconnect" style="color:#b91c1c">Disconnect this backend</a></div>
@@ -345,7 +345,8 @@ function demoRows(){
 /* ================= helpers ================= */
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function rel(ts){
-  var s=(Date.now()-new Date(ts).getTime())/1000; if(s<0)s=0;
+  var t=new Date(ts).getTime(); if(isNaN(t)) return '';
+  var s=(Date.now()-t)/1000; if(s<0)s=0;
   if(s<60) return 'just now';
   var m=Math.floor(s/60); if(m<60) return m+'m ago';
   var h=Math.floor(m/60); if(h<24) return h+'h ago';
@@ -384,6 +385,7 @@ function cardHTML(p){
 }
 function render(){
   state.loading=false;
+  state.rows.forEach(function(r){ if(r && ['active','waiting','done'].indexOf(r.state)===-1) r.state='active'; });
   document.getElementById('skeletons').style.display='none';
   var host=document.getElementById('groups'); host.innerHTML='';
   var counts={active:0,waiting:0,done:0};
@@ -437,9 +439,9 @@ function fetchRows(){
         document.getElementById('signin-msg').textContent='Your session expired. Sign in again to see your projects.';
         return;
       }
-      upd.textContent='Error'; toast('Could not load projects: '+res.error.message); return; }
+      upd.textContent='Error'; toast('Could not load projects: '+res.error.message); render(); return; }
     state.rows=res.data||[]; state.lastFetch=Date.now(); render();
-  }).catch(function(e){ upd.textContent='Error'; toast('Connection problem. Pull to refresh later.'); });
+  }).catch(function(e){ upd.textContent='Error'; toast('Connection problem. Check your network and tap refresh.'); render(); });
 }
 
 /* ================= auth & connection ================= */
@@ -454,12 +456,13 @@ function makeClient(cfg){
   return supabase.createClient(cfg.url.replace(/\/+$/,''), cfg.key, {auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}});
 }
 function enterSupabase(cfg){
+  var fetchedOnce=false;
   state.mode='live'; state.sb=makeClient(cfg);
   document.getElementById('link-signout').classList.remove('hidden');
   document.getElementById('demobar').classList.add('hidden');
   state.sb.auth.getSession().then(function(r){
     state.session=r.data&&r.data.session;
-    if(state.session){ show('view-home'); document.getElementById('skeletons').style.display='block'; fetchRows(); }
+    if(state.session){ fetchedOnce=true; show('view-home'); document.getElementById('skeletons').style.display='block'; fetchRows(); }
     else show('view-signin');
   }).catch(function(){
     toast('Could not reach your backend. Check the connection settings.');
@@ -467,8 +470,8 @@ function enterSupabase(cfg){
   });
   state.sb.auth.onAuthStateChange(function(ev,sess){
     state.session=sess;
-    if(sess){ show('view-home'); fetchRows(); }
-    else if(state.mode==='live') show('view-signin');
+    if(ev==='SIGNED_OUT'){ fetchedOnce=false; if(state.mode==='live') show('view-signin'); return; }
+    if(ev==='SIGNED_IN' && sess && !fetchedOnce){ fetchedOnce=true; show('view-home'); fetchRows(); }
   });
 }
 
@@ -520,6 +523,7 @@ document.getElementById('link-signout').addEventListener('click',function(e){
 });
 document.getElementById('link-back-setup').addEventListener('click',function(e){
   e.preventDefault();
+  document.getElementById('setup-title').textContent='Connection settings';
   var cfg=getCfg();
   document.getElementById('cfg-url').value=cfg?cfg.url:'';
   document.getElementById('cfg-key').value=cfg?cfg.key:'';
@@ -575,11 +579,16 @@ document.getElementById('btn-connect').addEventListener('click',function(){
 /* ================= boot ================= */
 (function(){
   var m=location.hash.match(/error_description=([^&]+)/);
-  if(m){ setTimeout(function(){ toast(decodeURIComponent(m[1]).replace(/\+/g,' ')); },400);
+  if(m){ var emsg='The sign-in link did not work. Request a new one.';
+    try{ emsg=decodeURIComponent(m[1]).replace(/\+/g,' '); }catch(e){}
+    setTimeout(function(){ toast(emsg); },400);
     history.replaceState(null,'',location.pathname); }
 })();
 var cfg=getCfg();
-if(cfg && cfg.url && cfg.key) enterSupabase(cfg); else enterDemo();
+if(cfg && cfg.url && cfg.key){
+  try{ enterSupabase(cfg); }
+  catch(e){ clearCfg(); enterDemo(); setTimeout(function(){ toast('Saved connection settings were unreadable, so you are back on the demo. Reconnect any time.'); },300); }
+} else enterDemo();
 
 // refresh cycle: data every 60s, relative times every 30s
 setInterval(function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); },60000);

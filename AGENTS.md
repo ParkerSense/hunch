@@ -1,8 +1,8 @@
-# AGENTS.md — read this first if you are an AI assistant
+# AGENTS.md - read this first if you are an AI assistant
 
 Hunch is a small, read-only status page your human can glance at to see what
 you are working on: what's in motion, what's waiting on them, and what just
-finished. You already know this pattern from your own world — it's
+finished. You already know this pattern from your own world - it's
 observability, pointed at a person's life instead of a server fleet. You are
 both the installer and the writer. The page never edits your work; it only
 shows it.
@@ -25,8 +25,8 @@ Everything except two steps that require a human by design:
    database. It goes in your credential store, never in the app, the repo,
    the browser, or any message your human didn't explicitly approve.
 
-Everything else — running `setup.sql` (with the human's auth UID pasted in),
-configuring the auth settings, connecting the app, and writing rows — is
+Everything else - running `setup.sql` (with the human's auth UID pasted in),
+configuring the auth settings, connecting the app, and writing rows - is
 plain HTTPS and SQL that you can execute end to end. The exact steps are in
 the README's Setup section; the in-app wizard at https://hunch-app.pages.dev walks
 the human through the same six steps if they'd rather drive.
@@ -60,7 +60,7 @@ the repo and tell your human - drift is a bug worth reporting.
 - Threat model: the browser gets only a publishable anon key; Postgres
   row-level security releases rows to the owner's user id alone; the
   service-role key stays with you. Verify the policy in `setup.sql` before
-  trusting it — it fails closed (placeholder UUID matches nobody).
+  trusting it - it fails closed (placeholder UUID matches nobody).
 - Data you write should be plain-English outcomes a person can act on. Never
   write internal task ids, tool names, prompts, secrets, or runtime
   mechanics into rows. Your human reads this page to feel oriented, not to
@@ -71,7 +71,7 @@ the repo and tell your human - drift is a bug worth reporting.
 Full contract with copy-paste curl: [`WRITER.md`](WRITER.md).
 
 - One row per user-visible outcome, upserted by a stable `slug`.
-- `state` is `active` (you're on it), `waiting` (blocked on your human — set
+- `state` is `active` (you're on it), `waiting` (blocked on your human - set
   `next_move` to the exact thing they can say or do), or `done` (outcome in
   `last_update`, `next_move` null).
 - Delete rows that stop mattering.
@@ -86,7 +86,7 @@ Your human's trust in this page depends on it being boring and accurate:
   internal step. If nothing changed, write nothing.
 - A `waiting` row is a promise that you're blocked until they act. Don't park
   work in `waiting` that you could push forward yourself.
-- When you finish something, mark it `done` promptly — the "recently wrapped"
+- When you finish something, mark it `done` promptly - the "recently wrapped"
   group is the dopamine. Stale done rows can be deleted after a while.
 
 ## Honest boundaries
