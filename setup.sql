@@ -23,7 +23,7 @@ create table if not exists public.projects (
 alter table public.projects enable row level security;
 
 -- Reads: only your signed-in user can read rows.
--- Replace YOUR-USER-UUID with your own Supabase user id before creating the policy.
+-- Replace the zero UUID below with your own Supabase user id before running.
 drop policy if exists "owner read only" on public.projects;
 create policy "owner read only"
   on public.projects for select
