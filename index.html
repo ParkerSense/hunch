@@ -82,6 +82,7 @@ header.top{padding:calc(22px + env(safe-area-inset-top)) 0 14px;display:flex;ali
 .card .topline{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap}
 .cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
 .ago{margin-left:auto;font-size:12px;color:var(--faint);white-space:nowrap}
+.ago .newtag{color:var(--amber);font-style:italic;margin-right:5px}
 .card h3{font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px}
 .status{font-size:14.5px;line-height:1.55;color:var(--ink)}
 .status .em{color:var(--amber);font-weight:600}
@@ -224,6 +225,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
   <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
   <h1 id="setup-title">Make Hunch yours</h1>
   <p class="lede">Hunch is one page plus a tiny database. About ten minutes, all on free plans. Your credentials below live only in this browser.</p>
+  <p class="lede" style="margin-top:-14px"><b>Have an AI assistant?</b> The fastest path: send it <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">the Hunch repo</a> and say "set up Hunch for me" - it does everything below with you.</p>
 
   <div class="steps">
     <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
@@ -281,6 +283,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
     <li><b>The assistant writes.</b> As work starts, moves, waits, or completes, the assistant upserts one plain-English row per outcome into your database, using the service-role key that stays server-side.</li>
     <li><b>The app reads.</b> This page reads those rows through row-level security with a publishable key. There is no write path from the browser at all.</li>
     <li><b>You look.</b> No chat archaeology. Open the page, see the state of your life in ten seconds.</li>
+    <li><b>Something looks wrong?</b> Tell your assistant in chat - it owns the rows and rewrites them. Editing the database directly works, but its next update may overwrite your edit.</li>
   </ul>
 
   <h2>Security model</h2>
@@ -306,6 +309,10 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 
 /* ================= config & state ================= */
 var CFG_KEY='hunch.cfg';
+var VISIT_KEY='hunch.lastVisit';
+var lastVisit=0;
+try{ lastVisit=parseInt(localStorage.getItem(VISIT_KEY)||'0',10)||0; }catch(e){}
+function markVisit(){ try{ localStorage.setItem(VISIT_KEY,String(Date.now())); }catch(e){} }
 var state={mode:'demo', sb:null, session:null, rows:[], loading:true, showAllDone:false, lastFetch:null};
 function getCfg(){ try{return JSON.parse(localStorage.getItem(CFG_KEY)||'null');}catch(e){return null;} }
 function setCfg(c){ localStorage.setItem(CFG_KEY, JSON.stringify(c)); }
@@ -370,8 +377,9 @@ function groupRows(key){
 }
 function cardHTML(p){
   var cat=(p.category||'personal').toLowerCase();
+  var isNew=lastVisit>0 && new Date(p.last_update_at).getTime()>lastVisit;
   var html='<div class="card st-'+esc(p.state)+'">'
-    +'<div class="topline"><span class="cat '+esc(cat)+'">'+esc(cat)+'</span><span class="ago">'+esc(rel(p.last_update_at))+'</span></div>'
+    +'<div class="topline"><span class="cat '+esc(cat)+'">'+esc(cat)+'</span><span class="ago">'+(isNew?'<span class="newtag">new</span>':'')+esc(rel(p.last_update_at))+'</span></div>'
     +'<h3>'+esc(p.title)+'</h3>'
     +'<div class="status">'+esc(p.status)+'</div>'
     +'<div class="meta">'
@@ -593,7 +601,11 @@ if(cfg && cfg.url && cfg.key){
 // refresh cycle: data every 60s, relative times every 30s
 setInterval(function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); },60000);
 setInterval(function(){ if(!document.hidden && !state.loading) render(); },30000);
-document.addEventListener('visibilitychange',function(){ if(!document.hidden && state.mode!=='demo') fetchRows(); });
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden) markVisit();
+  else if(state.mode!=='demo') fetchRows();
+});
+window.addEventListener('pagehide',markVisit);
 })();
 </script>
 </body>

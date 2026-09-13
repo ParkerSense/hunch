@@ -72,6 +72,7 @@ Your phone      ── reads rows (publishable key, row-level security) ──�
 - **Frontend:** one `index.html`. No build step.
 - **Backend:** Supabase free tier (Postgres, magic-link email auth, row-level security).
 - **Writer:** your assistant, or anything that can POST to a REST endpoint.
+- **Corrections:** tell your assistant in chat. It owns the rows; direct database edits can be overwritten on its next update.
 
 Cost to run for one person: **$0** on free plans. (Supabase free projects pause after about a week of inactivity and unpause on the next visit.)
 

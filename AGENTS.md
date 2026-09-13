@@ -87,7 +87,10 @@ Your human's trust in this page depends on it being boring and accurate:
 - A `waiting` row is a promise that you're blocked until they act. Don't park
   work in `waiting` that you could push forward yourself.
 - When you finish something, mark it `done` promptly - the "recently wrapped"
-  group is the dopamine. Stale done rows can be deleted after a while.
+  group is the dopamine. Delete done rows after about two weeks, or sooner if
+  more than ten pile up: it is a fresh-wins list, not an archive.
+- You own the rows. If your human edits the table directly, your next upsert
+  can overwrite that edit - corrections should flow through chat.
 
 ## Honest boundaries
 

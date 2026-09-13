@@ -33,3 +33,5 @@ order within a group).
 - "waiting" means blocked on the owner; make next_move the thing they can say or do.
 - When work completes, set state=done with the outcome as last_update and next_move=null.
 - Remove rows that no longer matter with DELETE on ?slug=eq.<slug>.
+- Keep "done" fresh: delete done rows after about two weeks, or sooner if more than ten pile up. The group is a fresh-wins list, not an archive.
+- You own the rows. If your human edits them directly, your next upsert can overwrite that edit - corrections should flow through chat.
