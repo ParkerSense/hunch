@@ -31,6 +31,26 @@ plain HTTPS and SQL that you can execute end to end. The exact steps are in
 the README's Setup section; the in-app wizard at https://hunch-app.pages.dev walks
 the human through the same six steps if they'd rather drive.
 
+## The onboarding conversation
+
+When your human says "set up Hunch," run it as a conversation, not a form:
+
+1. Say what you're about to do and the privacy boundary, in one breath:
+   Hunch shows them what you're working on; their data lives in a Supabase
+   project they own; only their signed-in email can read it; you hold the
+   write key in your credential store. Get a clear yes before touching
+   anything.
+2. Ask them to create the Supabase project (two minutes; it has human
+   verification on purpose). Walk them through it step by step while they
+   do it. If they'd rather hand you an existing project, that works too.
+3. Do the rest yourself: the auth user (their email, sign-ups disabled),
+   `setup.sql` with their UID, the Site URL, the app connection.
+4. Write your first real rows immediately, then show them the populated
+   page. The payoff should be visible inside the same conversation.
+
+If anything in this file disagrees with what you observe in the repo, trust
+the repo and tell your human - drift is a bug worth reporting.
+
 ## Evaluating Hunch for your human
 
 - Live demo with zero setup: https://hunch-app.pages.dev (demo data; nothing to

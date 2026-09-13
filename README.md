@@ -28,7 +28,15 @@ Personal AI assistants do real work in the background, but the work lives inside
 
 ## Built for your assistant to run
 
-Hunch is designed to be installed and maintained by your AI assistant, not by you. The shortest path: send your assistant this repo and say "set up Hunch for me." [`AGENTS.md`](AGENTS.md) is written for the assistant — what it can do autonomously, which two steps genuinely need you (creating the Supabase project, which has human verification, and approving where the write key lives), and the contract it writes updates with. You stay the trust layer: your account, your keys, every row inspectable in the Supabase table editor.
+Hunch is designed to be installed and maintained by your AI assistant, not by you. The onboarding flow:
+
+1. **You say one sentence.** Send your assistant this repo: "set up Hunch for me."
+2. **Your assistant reads [`AGENTS.md`](AGENTS.md)** and explains the privacy boundary in plain English: what data it will write, where it lives, who can read it (only you), and which key it needs. You approve before anything happens.
+3. **You do the two minutes only a human can do.** Create a free Supabase project at [supabase.com](https://supabase.com) — account creation has human verification on purpose. Your assistant walks you through it conversationally.
+4. **Your assistant does everything else.** Runs [`setup.sql`](setup.sql), configures sign-in, connects the app, and starts writing updates as your work moves.
+5. **You open the page.** [hunch-app.pages.dev](https://hunch-app.pages.dev) — already populated, already yours.
+
+You stay the trust layer throughout: your account, your keys, every row inspectable in the Supabase table editor. Details for the assistant live in [`AGENTS.md`](AGENTS.md); the write contract lives in [`WRITER.md`](WRITER.md).
 
 ## The demo
 
@@ -74,7 +82,7 @@ Cost to run for one person: **$0** on free plans. (Supabase free projects pause 
 - The service-role key stays server-side with the writer. Never in the page, the repo, or the browser.
 - The app is read-only: there is no write path from the browser at all.
 - Your sign-in session lives only in that browser's local storage. On a shared device, use the footer Sign out when you're done.
-- No analytics, no trackers, no third-party requests: fonts and the Supabase client are vendored in this repo. The only network calls the page makes are to your own Supabase project.
+- No analytics, no trackers, no third-party requests: the page uses system typefaces and a vendored Supabase client. The only network calls it makes are to your own Supabase project.
 - The hosted build at hunch-app.pages.dev is byte-identical to `index.html` in this repo; your connection settings never leave your browser. Self-host if you'd rather not trust a hosted copy.
 
 ## Why "Hunch"?
