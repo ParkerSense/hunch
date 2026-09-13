@@ -24,8 +24,9 @@
   --line:#e9e6e1; --line2:#d9d5cd;
   --ink:#15130f; --muted:#6e6a61; --faint:#a8a49a;
   --accent:#15130f; --link:#0000ee;
-  --amber:#b45309; --amber-soft:#fdf6ec;
-  --green:#0f9d63; --green-soft:#eff7f2;
+  --amber:#9a4f0c; --amber-soft:#fdf6ec;
+  --blue:#2563a6; --blue-soft:#f3f7fb;
+  --green:#0f8055; --green-soft:#eff7f2;
   --err:#b91c1c; --err-soft:#fdf1f1;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -41,17 +42,27 @@ body{
 /* ---------- header ---------- */
 header.top{padding:calc(22px + env(safe-area-inset-top)) 0 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--ink)}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brandhome{border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;padding:4px;margin:-4px;text-decoration:none;border-radius:2px}
 .brand svg{width:30px;height:30px;flex:none}
 .brand .name{font-size:24px;font-weight:700;letter-spacing:-0.01em}
 .brand .tag{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:2px}
-.actions{display:flex;align-items:center;gap:14px;flex:none;padding-top:6px}
-.livepill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-.livedot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-.iconbtn{border:none;background:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;padding:2px;transition:color .15s}
+.actions{display:flex;align-items:center;gap:8px;flex:none;padding-top:1px}
+.livepill{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);min-width:0;line-height:1.35}
+.livedot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none}
+.iconbtn{border:none;background:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;padding:0;transition:color .15s}
 .iconbtn:hover{color:var(--ink)}
-.iconbtn svg{width:17px;height:17px}
+.iconbtn svg{width:19px;height:19px}
 .iconbtn.spinning svg{animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
+@media(max-width:520px){
+  header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:8px 12px}
+  .actions{display:contents}
+  .actions .livepill{grid-column:1/-1;grid-row:2;padding-left:40px}
+  .iconbtn:first-of-type{grid-column:2;grid-row:1;margin-left:-84px}
+  .iconbtn:last-of-type{grid-column:2;grid-row:1}
+  .brand .tag{white-space:nowrap}
+}
+@media(max-width:340px){.brand svg{width:26px;height:26px}.brand .name{font-size:21px}.brand .tag{font-size:11.5px}.actions .livepill{padding-left:36px}}
 
 /* ---------- demo banner ---------- */
 .demobar{margin:18px 0 0;padding:12px 14px;display:flex;align-items:center;gap:12px;
@@ -69,12 +80,16 @@ header.top{padding:calc(22px + env(safe-area-inset-top)) 0 14px;display:flex;ali
 .hello .sum .w{color:var(--amber);font-weight:700}
 
 /* ---------- groups ---------- */
-.group{margin-top:26px}
-.grouphead{display:flex;align-items:baseline;gap:8px;margin-bottom:2px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.group{margin-top:30px}
+.grouphead{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;border-bottom:1px solid var(--line);padding:0 8px 8px}
 .grouphead h2{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
 .grouphead .count{font-size:12px;color:var(--faint)}
 .grouphead .dot{width:7px;height:7px;border-radius:50%;flex:none;align-self:center}
-.dot.a{background:var(--ink)} .dot.w{background:var(--amber)} .dot.d{background:var(--green)}
+.dot.a{background:var(--blue)} .dot.w{background:var(--amber)} .dot.d{background:var(--green)}
+.group.ga .grouphead{border-color:#b9cee3;background:var(--blue-soft);padding-top:8px}
+.group.gw .grouphead{border-color:#e4c997;background:var(--amber-soft);padding-top:8px}
+.group.gd .grouphead{border-color:#b9dacb;background:var(--green-soft);padding-top:8px}
+.group.ga h2{color:#1e568f}.group.gw h2{color:#7c430a}.group.gd h2{color:#0b6946}
 
 /* ---------- cards ---------- */
 .card{padding:15px 2px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
@@ -108,7 +123,7 @@ header.top{padding:calc(22px + env(safe-area-inset-top)) 0 14px;display:flex;ali
 .page{display:none}
 .page.on{display:block}
 .solo{max-width:440px;margin:0 auto;padding:calc(52px + env(safe-area-inset-top)) 24px 40px}
-.solo .mark{width:52px;height:52px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.solo .mark{width:52px;height:52px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:20px;background:#fff;color:var(--ink);cursor:pointer}
 .solo .mark svg{width:30px;height:30px}
 .solo h1{font-size:26px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px}
 .solo .lede{color:var(--muted);font-size:14.5px;line-height:1.65;margin-bottom:24px}
@@ -135,6 +150,19 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 .backrow{margin-top:28px;text-align:center}
 .backrow a{color:var(--muted);font-size:13px;text-decoration:none}
 .backrow a:hover{color:var(--link);text-decoration:underline}
+:where(button,a,input):focus-visible{outline:2px solid var(--link);outline-offset:3px}
+.choicegrid{display:grid;gap:12px;margin:22px 0}
+.choice{border:1px solid var(--line2);padding:18px;background:#fff}
+.choice.recommended{border:2px solid var(--ink);padding:17px}
+.choice .eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:7px}
+.choice.recommended .eyebrow{color:#0b6b45}
+.choice h2{font-size:19px;margin-bottom:6px}
+.choice p{font-size:14px;line-height:1.55;color:var(--muted)}
+.choice .btn{margin-top:14px}
+.pathnote{font-size:13px;line-height:1.55;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:11px 13px;margin:12px 0 18px}
+.pathhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.pathhead h2{font-size:20px}
+.pathhead button{border:0;background:none;color:var(--link);font:inherit;font-size:13px;cursor:pointer;padding:8px 0}
 
 /* about */
 .about h2{font-size:17px;margin:26px 0 8px}
@@ -164,13 +192,13 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <div id="view-home" class="page">
 <div class="wrap">
   <header class="top">
-    <div class="brand">
+    <button class="brand brandhome" type="button" data-home aria-label="Hunch home">
       <svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg>
       <div>
         <div class="name">Hunch</div>
         <div class="tag">unofficial &middot; for Instinct</div>
       </div>
-    </div>
+    </button>
     <div class="actions">
       <div class="livepill" id="livepill"><span class="livedot"></span><span id="updated">Connecting</span></div>
       <button class="iconbtn" id="btn-refresh" title="Refresh" aria-label="Refresh">
@@ -209,7 +237,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <!-- ============ SIGN IN ============ -->
 <div id="view-signin" class="page">
 <div class="solo">
-  <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
+  <button class="mark" type="button" data-home aria-label="Hunch home"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></button>
   <h1>Sign in to Hunch</h1>
   <p class="lede">A private, always-current view of what's in motion, what's waiting on you, and what just wrapped. Sign in with the email this dashboard belongs to.</p>
   <input id="email" class="field" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Your email address">
@@ -223,7 +251,7 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <!-- ============ LOCKED (snapshot mode, no/invalid key) ============ -->
 <div id="view-locked" class="page">
 <div class="solo">
-  <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
+  <button class="mark" type="button" data-home aria-label="Hunch home"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></button>
   <h1 id="locked-title">This dashboard is locked</h1>
   <p class="lede" id="locked-body">Your data lives in an encrypted snapshot on this site. Open the full link your Instinct gave you - the part after # is the key, and it never leaves your browser.</p>
   <div class="backrow"><a href="#" id="link-locked-demo">View the demo instead</a></div>
@@ -233,32 +261,49 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <!-- ============ SETUP ============ -->
 <div id="view-setup" class="page">
 <div class="solo" style="max-width:480px">
-  <div class="mark"><svg viewBox="0 0 64 64"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></div>
+  <button class="mark" type="button" data-home aria-label="Hunch home"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg></button>
   <h1 id="setup-title">Make Hunch yours</h1>
-  <p class="lede">Hunch is one page plus a tiny backend. <b>The default needs no account at all:</b> your Instinct publishes an encrypted snapshot to this site and hands you a link. The part after <code>#</code> is the only key - anyone with the full link can read your page, so treat it like a password. Rotation is one republish.</p>
-  <p class="lede" style="margin-top:-14px"><b>Use Instinct?</b> The fastest path: send your Instinct <a href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">the Hunch repo</a> and say "set up Hunch for me" - it does everything below with you.</p>
-
-  <div class="steps">
-    <div class="step"><div class="n">&mdash;</div><div class="t"><b>Optional: Supabase backend.</b> Adds email sign-in and per-reader access control instead of a bearer link. Tradeoffs: creating the account needs a human verification step, and free projects pause after a week of inactivity (a scheduled write keeps one alive).</div></div>
-    <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
-    <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
-    <div class="step"><div class="n">3</div><div class="t"><b>Run <a href="https://github.com/ParkerSense/hunch/blob/main/setup.sql" target="_blank" rel="noopener"><code>setup.sql</code></a></b> in the SQL editor - paste your UID on the marked line first. It creates the table, locks it to you, and adds demo rows.</div></div>
-    <div class="step"><div class="n">4</div><div class="t"><b>Point sign-in links here.</b> Authentication → URL Configuration → set Site URL to this app's address.</div></div>
-    <div class="step"><div class="n">5</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is safe in the browser - row-level security is what guards your rows.</div></div>
+  <div id="setup-choose">
+    <p class="lede">Choose how this Hunch gets its updates. Most people should use the encrypted view - your Instinct sets it up for you.</p>
+    <div class="choicegrid">
+      <section class="choice recommended">
+        <div class="eyebrow">Recommended</div>
+        <h2>Encrypted view</h2>
+        <p>Your Instinct sets up and updates a private, read-only page. No database, email sign-in, or technical keys for you to manage.</p>
+        <a class="btn" style="display:block;text-align:center;text-decoration:none" href="https://github.com/ParkerSense/hunch" target="_blank" rel="noopener">Ask your Instinct to set it up</a>
+      </section>
+      <section class="choice">
+        <div class="eyebrow">Optional</div>
+        <h2>Supabase with email sign-in</h2>
+        <p>For people who want per-reader email access and are comfortable creating and managing their own database project.</p>
+        <button id="btn-use-supabase" class="btn sec" type="button">Set up Supabase manually</button>
+      </section>
+    </div>
+    <div class="backrow"><a href="#" id="link-back-demo">Back to dashboard</a></div>
   </div>
 
-  <label class="lab" for="cfg-url">Supabase project URL</label>
-  <input id="cfg-url" class="field" type="url" inputmode="url" placeholder="https://abcdefgh.supabase.co" autocapitalize="off" autocorrect="off">
-  <label class="lab" for="cfg-key">Publishable anon key</label>
-  <input id="cfg-key" class="field" type="text" placeholder="sb_publishable_... or eyJhbGciOi..." autocapitalize="off" autocorrect="off">
-  <button id="btn-connect" class="btn">Test connection &amp; save</button>
-  <div id="setup-msg" class="msg"></div>
-
-  <div class="steps" style="margin-top:26px">
-    <div class="step"><div class="n">6</div><div class="t"><b>Hand your Instinct the keys.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+  <div id="setup-supabase" class="hidden">
+    <div class="pathhead"><h2>Optional Supabase setup</h2><button id="btn-back-choice" type="button">Back to choices</button></div>
+    <p class="lede">This path adds email sign-in and per-reader access control. It requires a Supabase account, a project, and manual setup. Encrypted-view users do not need any of this.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div class="t"><b>Create a free Supabase project</b> at <code>supabase.com</code> (any name, any region).</div></div>
+      <div class="step"><div class="n">2</div><div class="t"><b>Add your login.</b> In Supabase: Authentication → Sign In / Providers → disable new sign-ups, then Authentication → Users → Add user with your email. Copy the user's UID.</div></div>
+      <div class="step"><div class="n">3</div><div class="t"><b>Prepare the database with <a href="https://github.com/ParkerSense/hunch/blob/main/setup.sql" target="_blank" rel="noopener"><code>setup.sql</code></a>.</b> This is a ready-made database setup script. Paste your UID on its marked line, then run it in Supabase's SQL editor. It creates Hunch's table, limits the rows to your login, and adds sample data.</div></div>
+      <div class="step"><div class="n">4</div><div class="t"><b>Point sign-in links here.</b> Authentication → URL Configuration → set Site URL to this app's address.</div></div>
+      <div class="step"><div class="n">5</div><div class="t"><b>Paste your project URL and publishable anon key</b> below (Project Settings → API). The publishable key is designed for browser use; row-level security is what guards your rows.</div></div>
+    </div>
+    <label class="lab" for="cfg-url">Supabase project URL</label>
+    <input id="cfg-url" class="field" type="url" inputmode="url" placeholder="https://abcdefgh.supabase.co" autocapitalize="off" autocorrect="off">
+    <label class="lab" for="cfg-key">Publishable anon key</label>
+    <input id="cfg-key" class="field" type="text" placeholder="sb_publishable_... or eyJhbGciOi..." autocapitalize="off" autocorrect="off">
+    <button id="btn-connect" class="btn">Check Supabase connection and save</button>
+    <p class="pathnote">This checks that Hunch can reach your Supabase project and read its projects table. If it works, the project URL and browser-safe publishable key are saved only in this browser.</p>
+    <div id="setup-msg" class="msg"></div>
+    <div class="steps" style="margin-top:26px">
+      <div class="step"><div class="n">6</div><div class="t"><b>Hand your Instinct the write access.</b> Give it the service-role key and <a href="https://github.com/ParkerSense/hunch/blob/main/WRITER.md" target="_blank" rel="noopener"><code>WRITER.md</code></a>. It writes plain-English updates as work happens. The service key never touches this browser.</div></div>
+    </div>
+    <div class="backrow"><a href="#" id="link-disconnect" style="color:#b91c1c">Disconnect this backend</a></div>
   </div>
-
-  <div class="backrow"><a href="#" id="link-back-demo">Back</a> &nbsp;·&nbsp; <a href="#" id="link-disconnect" style="color:#b91c1c">Disconnect this backend</a></div>
 </div>
 </div>
 
@@ -266,10 +311,10 @@ label.lab{display:block;font-size:11.5px;font-weight:700;text-transform:uppercas
 <div id="view-about" class="page">
 <div class="wrap about">
   <header class="top">
-    <div class="brand">
-      <svg viewBox="0 0 64 64" width="30" height="30"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg>
+    <button class="brand brandhome" type="button" data-home aria-label="Hunch home">
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><g fill="none" stroke="#15130f" stroke-width="4.5" stroke-linecap="round"><path d="M20 40a12 12 0 0 1 24 0"/><path d="M13 40a19 19 0 0 1 38 0" opacity=".5"/><path d="M27 40a5 5 0 0 1 10 0"/></g><circle cx="32" cy="45" r="4.5" fill="#15130f"/></svg>
       <div><div class="name">How Hunch works</div><div class="tag">the build sheet, in plain English</div></div>
-    </div>
+    </button>
   </header>
 
   <h2>What you're looking at</h2>
@@ -426,7 +471,7 @@ function render(){
   GROUPS.forEach(function(gr){
     var rows=groupRows(gr.key);
     if(gr.key==='done' && !state.showAllDone) rows=rows.slice(0,4);
-    var sec=document.createElement('div'); sec.className='group';
+    var sec=document.createElement('div'); sec.className='group g'+gr.cls;
     var head='<div class="grouphead"><span class="dot '+gr.cls+'"></span><h2>'+gr.label+'</h2><span class="count">'+counts[gr.key]+'</span></div>';
     var body='';
     if(!rows.length) body='<div class="empty">'+(gr.key==='done'?'Nothing wrapped yet.':gr.key==='waiting'?'Nothing needs your call. Nice.':'Nothing in motion.')+'</div>';
@@ -540,13 +585,25 @@ function enterSupabase(cfg){
     else show('view-signin');
   }).catch(function(){
     toast('Could not reach your backend. Check the connection settings.');
-    show('view-setup');
+    showSetup(true);
   });
   state.sb.auth.onAuthStateChange(function(ev,sess){
     state.session=sess;
     if(ev==='SIGNED_OUT'){ fetchedOnce=false; if(state.mode==='live') show('view-signin'); return; }
     if(ev==='SIGNED_IN' && sess && !fetchedOnce){ fetchedOnce=true; show('view-home'); fetchRows(); }
   });
+}
+
+function showSetup(supabasePath){
+  document.getElementById('setup-choose').classList.toggle('hidden',!!supabasePath);
+  document.getElementById('setup-supabase').classList.toggle('hidden',!supabasePath);
+  document.getElementById('setup-title').textContent=supabasePath?'Connection settings':'Make Hunch yours';
+  show('view-setup');
+}
+function goHome(){
+  if(state.mode==='snapshot' && state.snapKey){ enterSnapshot(state.snapKey); return; }
+  if(state.mode==='live'){ show('view-home'); render(); return; }
+  enterDemo();
 }
 
 /* ================= events ================= */
@@ -558,21 +615,23 @@ document.getElementById('btn-refresh').addEventListener('click',function(){
 });
 document.getElementById('btn-settings').addEventListener('click',function(){
   document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
-  if(state.mode==='demo') show('view-setup');
+  if(state.mode==='demo') showSetup(false);
   else {
     var cfg=getCfg();
     document.getElementById('cfg-url').value=cfg?cfg.url:'';
     document.getElementById('cfg-key').value=cfg?cfg.key:'';
-    document.getElementById('setup-title').textContent='Connection settings';
-    show('view-setup');
+    showSetup(state.mode==='live');
   }
 });
 document.getElementById('btn-makemine').addEventListener('click',function(){
   document.getElementById('link-disconnect').style.display = getCfg() ? 'inline' : 'none';
-  show('view-setup');
+  showSetup(false);
 });
 document.getElementById('link-about').addEventListener('click',function(e){ e.preventDefault(); show('view-about'); });
-document.getElementById('link-home').addEventListener('click',function(e){ e.preventDefault(); show('view-home'); render(); });
+document.getElementById('link-home').addEventListener('click',function(e){ e.preventDefault(); goHome(); });
+document.querySelectorAll('[data-home]').forEach(function(el){ el.addEventListener('click',goHome); });
+document.getElementById('btn-use-supabase').addEventListener('click',function(){ showSetup(true); });
+document.getElementById('btn-back-choice').addEventListener('click',function(){ showSetup(false); });
 document.getElementById('link-locked-demo').addEventListener('click',function(e){
   e.preventDefault();
   try{ history.replaceState(null,'',location.pathname); }catch(err){}
@@ -581,7 +640,7 @@ document.getElementById('link-locked-demo').addEventListener('click',function(e)
 });
 document.getElementById('link-back-demo').addEventListener('click',function(e){
   e.preventDefault();
-  show('view-home'); render();
+  goHome();
 });
 document.getElementById('link-disconnect').addEventListener('click',function(e){
   e.preventDefault();
@@ -614,7 +673,7 @@ document.getElementById('link-back-setup').addEventListener('click',function(e){
   var cfg=getCfg();
   document.getElementById('cfg-url').value=cfg?cfg.url:'';
   document.getElementById('cfg-key').value=cfg?cfg.key:'';
-  show('view-setup');
+  showSetup(true);
 });
 document.getElementById('btn-sendlink').addEventListener('click',function(){
   var email=document.getElementById('email').value.trim();
@@ -643,7 +702,7 @@ document.getElementById('btn-connect').addEventListener('click',function(){
   var test=makeClient(cfg);
   var hang=new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },12000); });
   Promise.race([test.from('projects').select('slug').limit(1),hang]).then(function(res){
-    btn.disabled=false; btn.textContent='Test connection & save';
+    btn.disabled=false; btn.textContent='Check Supabase connection and save';
     if(res.error){
       var em=res.error.message||'';
       msg.className='msg err';
@@ -658,7 +717,7 @@ document.getElementById('btn-connect').addEventListener('click',function(){
     msg.className='msg ok'; msg.textContent='Connected. Loading your dashboard…';
     setTimeout(function(){ enterSupabase(cfg); },700);
   }).catch(function(){
-    btn.disabled=false; btn.textContent='Test connection & save';
+    btn.disabled=false; btn.textContent='Check Supabase connection and save';
     msg.className='msg err'; msg.textContent='Could not reach that project. Check the URL and that the project is not paused.';
   });
 });
