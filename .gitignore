@@ -4,5 +4,4 @@ snapshot.enc
 *.state.json
 state.json
 node_modules/
-.wrangler/
 .DS_Store

@@ -13,8 +13,7 @@ Please do **not** open a public issue for a security problem.
   a security report to share, without details, and we will open a private
   channel.
 
-Please include: the affected backend (encrypted snapshot, Supabase, or the
-D1 fallback), the file or flow involved, and a way to reproduce what you
+Please include: the affected backend (encrypted snapshot or Supabase), the file or flow involved, and a way to reproduce what you
 found. Synthetic data only - never someone else's live dashboard link or
 snapshot in a report.
 

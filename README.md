@@ -130,7 +130,6 @@ Because "hunch" is a synonym for instinct - and that's exactly what this is: ins
 - `WRITER.md` - the write contract in detail, with copy-paste commands
 - `supabase.min.js` - Supabase JS client v2.116.0 (MIT, © Supabase), vendored for the optional backend; byte-identical to the official jsDelivr UMD build (sha256 `fbde52aab1700a3b308087ae78b41fb5192e7a952d81d5d08238763ce3245dd8`)
 - `setup.sql` - table + row-level security + demo rows, for the optional backend
-- `fallbacks/cloudflare-d1/` - a working third backend (Worker + D1) parked for future needs like audit logs or querying
 - `assets/` - logo and screenshots
 
 ## Contributing, security, and checks

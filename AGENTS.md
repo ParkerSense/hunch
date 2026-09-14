@@ -116,10 +116,6 @@ installation: never run both, never sync between them.
   oriented, not to supervise your internals.
 - Generalize or omit sensitive work entirely. The page is only as private
   as the state you choose to publish.
-- A third backend (Cloudflare Worker + D1) is parked under `fallbacks/`
-  for the day someone truly needs querying, audit logs, or per-reader
-  tokens without Supabase. It stores plaintext at the vendor - do not
-  reach for it casually.
 
 ## The writer contract (summary)
 
